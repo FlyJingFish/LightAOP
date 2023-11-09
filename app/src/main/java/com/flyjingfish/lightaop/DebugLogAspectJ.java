@@ -3,6 +3,7 @@ package com.flyjingfish.lightaop;
 import android.os.Build;
 import android.os.Looper;
 import android.os.Trace;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -60,7 +61,15 @@ public class DebugLogAspectJ {
         enterMethod(joinPoint, debugLog);
 
         long startNanos = System.nanoTime();
-        Object result = joinPoint.proceed();
+        BaseLightAop baseLightAop;
+        if (debugLog.annotationClass() == BaseLightAop.class){
+            baseLightAop = new DefaultLightAop();
+        }else {
+            baseLightAop = debugLog.annotationClass().newInstance();
+        }
+        baseLightAop.beforeInvoke(debugLog);
+        Object result = baseLightAop.invoke(joinPoint,debugLog);
+        baseLightAop.afterInvoke(debugLog);
         long stopNanos = System.nanoTime();
         long lengthMillis = TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos);
 
@@ -106,7 +115,7 @@ public class DebugLogAspectJ {
 
         //记录并打印方法的信息
         StringBuilder builder = getMethodLogInfo(methodName, parameterNames, parameterValues);
-        Log.e("DebugLog","enterMethod"+builder.toString());
+        Log.e("DebugLog","enterMethod"+builder.toString()+"==="+debugLog+"===="+(TextUtils.equals(debugLog.annotationClass().getName() , DebugLog2.class.getName())));
     }
 
     /**

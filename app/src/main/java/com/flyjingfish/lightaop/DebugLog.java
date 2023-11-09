@@ -17,4 +17,9 @@ public @interface DebugLog {
      * @return 日志的优先级(默认是0)
      */
     int priority() default 0;
+
+    Class<? extends BaseLightAop> annotationClass() default DefaultLightAop.class;
+
+
+    LightAopAnnotation lannotation() default @LightAopAnnotation;
 }
