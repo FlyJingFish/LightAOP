@@ -63,7 +63,7 @@ public final class XLogger {
     /**
      * 是否是调试模式
      */
-    private static boolean sIsDebug = true;
+    private static boolean sIsDebug = false;
     /**
      * 日志打印优先级
      */
