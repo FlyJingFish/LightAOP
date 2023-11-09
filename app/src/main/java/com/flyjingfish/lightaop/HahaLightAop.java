@@ -19,14 +19,26 @@ public class HahaLightAop implements BaseLightAop{
     @Override
     public Object invoke(ProceedingJoinPoint joinPoint,DebugLog debugLog) {
         Log.e("HahaLightAop","=====invoke===="+debugLog.lannotation().stringValues()[0]);
-//        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-//        Method method = signature.getMethod();
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
+//        Annotation[] annotations = method.getAnnotations();
+//        for (Annotation annotation : annotations) {
+//            if (annotation.annotationType() == DebugLog2.class){
+//                DebugLog2 ann = (DebugLog2) method.getAnnotation(annotation.annotationType());
+//                Log.e("HahaLightAop","=====invoke===="+ann.value());
+//            }
+//        }
 //        DebugLog2 annotation = method.getAnnotation(DebugLog2.class);
-        ConstructorSignature signature = (ConstructorSignature) joinPoint.getSignature();
-        Constructor method = signature.getConstructor();
-        DebugLog2 annotation = (DebugLog2) method.getAnnotation(DebugLog2.class);
-
-        Log.e("HahaLightAop","=====invoke===="+annotation.value());
+//        ConstructorSignature signature = (ConstructorSignature) joinPoint.getSignature();
+//        Constructor method = signature.getConstructor();
+////        DebugLog2 annotation = (DebugLog2) method.getAnnotation(DebugLog2.class);
+//        Annotation[] annotations = method.getAnnotations();
+//        for (Annotation annotation : annotations) {
+//            if (annotation.annotationType() == DebugLog2.class){
+//                DebugLog2 ann = (DebugLog2) method.getAnnotation(annotation.annotationType());
+//                Log.e("HahaLightAop","=====invoke===="+ann.value());
+//            }
+//        }
         Object oj = null;
         try {
             oj= joinPoint.proceed();

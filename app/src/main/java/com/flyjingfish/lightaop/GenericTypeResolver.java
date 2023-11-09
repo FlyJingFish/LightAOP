@@ -5,7 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 public class GenericTypeResolver {
-    public static Class<? extends Annotation> resolveGenericType(Class<? extends Annotation> targetClass) {
+    public static Class<? extends Annotation> resolveGenericType(Class<?> targetClass) {
         Type superclass = targetClass.getGenericSuperclass();
         if (superclass instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) superclass;

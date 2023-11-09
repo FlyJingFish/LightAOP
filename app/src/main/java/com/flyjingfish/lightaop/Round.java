@@ -6,12 +6,12 @@ import android.util.Log;
 public class Round {
     public Runnable runnable;
 
-    @DebugLog2("hahhhhhhhhhhhh")
-    @DebugLog(annotationClass = HahaLightAop.class ,lannotation = @LightAopAnnotation(stringValues = {"你哈哈好啦","2"}))
-    public Round() {
+   public Round() {
     }
 
 //    @DebugLog
+    @DebugLog2("hahhhhhhhhhhhh")
+    @DebugLog(annotationClass = HahaLightAop.class ,lannotation = @LightAopAnnotation(stringValues = {"你哈哈好啦","2"}))
     public Runnable getRunnable() {
         return runnable;
     }
