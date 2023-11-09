@@ -25,7 +25,7 @@ class LightAop2 {
             val methodName = joinPoint.signature.name
             val signature = joinPoint.signature as MethodSignature
             val method = signature.method
-            val annotation = method.getAnnotation(DebugLog1::class.java)
+            val annotation = method.getAnnotation(DebugLog2::class.java)
             if (annotation == null) {
                 Log.e(TAG, "before: annotation == null")
             } else {

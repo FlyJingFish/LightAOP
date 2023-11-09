@@ -95,26 +95,26 @@ class LightAopPlugin implements Plugin<Project> {
                         }
                     }
 
-//                    MessageHandler handler2 = new MessageHandler(true);
-//                    new Main().run(kotlinArgs, handler2);
-//                    for (IMessage message : handler2.getMessages(null, true)) {
-//                        switch (message.getKind()) {
-//                            case IMessage.ABORT:
-//                            case IMessage.ERROR:
-//                            case IMessage.FAIL:
-//                                log.error message.message, message.thrown
-//                                break;
-//                            case IMessage.WARNING:
-//                                log.warn message.message, message.thrown
-//                                break;
-//                            case IMessage.INFO:
-//                                log.info message.message, message.thrown
-//                                break;
-//                            case IMessage.DEBUG:
-//                                log.debug message.message, message.thrown
-//                                break;
-//                        }
-//                    }
+                    MessageHandler handler2 = new MessageHandler(true);
+                    new Main().run(kotlinArgs, handler2);
+                    for (IMessage message : handler2.getMessages(null, true)) {
+                        switch (message.getKind()) {
+                            case IMessage.ABORT:
+                            case IMessage.ERROR:
+                            case IMessage.FAIL:
+                                log.error message.message, message.thrown
+                                break;
+                            case IMessage.WARNING:
+                                log.warn message.message, message.thrown
+                                break;
+                            case IMessage.INFO:
+                                log.info message.message, message.thrown
+                                break;
+                            case IMessage.DEBUG:
+                                log.debug message.message, message.thrown
+                                break;
+                        }
+                    }
                 }
             }
         }
