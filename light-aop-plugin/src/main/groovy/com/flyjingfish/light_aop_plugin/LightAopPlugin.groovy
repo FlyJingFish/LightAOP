@@ -16,7 +16,7 @@ import org.gradle.api.tasks.compile.JavaCompile
  * 对所有受 aspect 影响的类进行织入。
  * 在 gradle 的编译 task 中增加额外配置，使之能正确编译运行。
  */
-class AJXPlugin implements Plugin<Project> {
+class LightAopPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
@@ -95,26 +95,26 @@ class AJXPlugin implements Plugin<Project> {
                         }
                     }
 
-                    MessageHandler handler2 = new MessageHandler(true);
-                    new Main().run(kotlinArgs, handler2);
-                    for (IMessage message : handler2.getMessages(null, true)) {
-                        switch (message.getKind()) {
-                            case IMessage.ABORT:
-                            case IMessage.ERROR:
-                            case IMessage.FAIL:
-                                log.error message.message, message.thrown
-                                break;
-                            case IMessage.WARNING:
-                                log.warn message.message, message.thrown
-                                break;
-                            case IMessage.INFO:
-                                log.info message.message, message.thrown
-                                break;
-                            case IMessage.DEBUG:
-                                log.debug message.message, message.thrown
-                                break;
-                        }
-                    }
+//                    MessageHandler handler2 = new MessageHandler(true);
+//                    new Main().run(kotlinArgs, handler2);
+//                    for (IMessage message : handler2.getMessages(null, true)) {
+//                        switch (message.getKind()) {
+//                            case IMessage.ABORT:
+//                            case IMessage.ERROR:
+//                            case IMessage.FAIL:
+//                                log.error message.message, message.thrown
+//                                break;
+//                            case IMessage.WARNING:
+//                                log.warn message.message, message.thrown
+//                                break;
+//                            case IMessage.INFO:
+//                                log.info message.message, message.thrown
+//                                break;
+//                            case IMessage.DEBUG:
+//                                log.debug message.message, message.thrown
+//                                break;
+//                        }
+//                    }
                 }
             }
         }

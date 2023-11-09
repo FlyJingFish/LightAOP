@@ -12,9 +12,9 @@ import org.aspectj.lang.reflect.MethodSignature
  * 切面类
  */
 @Aspect
-class LightAop {
+class LightAop2 {
     // 切点
-    @Pointcut("execution(@com.flyjingfish.lightaop.DebugLog1 * *(..))")
+    @Pointcut("execution(@com.flyjingfish.lightaop.DebugLog2 * *(..))")
     fun debugLog() {
     }
 
@@ -37,6 +37,6 @@ class LightAop {
     }
 
     companion object {
-        private val TAG = LightAop::class.java.simpleName
+        private val TAG = LightAop2::class.java.simpleName
     }
 }

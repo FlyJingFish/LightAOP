@@ -10,4 +10,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="haha"/>
+    <Button
+        android:id="@+id/haha1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/haha"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="haha1"/>
+    <Button
+        android:id="@+id/haha2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/haha1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="haha2"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
