@@ -1,0 +1,36 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:8.0.0'
+    implementation "org.aspectj:aspectjtools:1.9.7"
+    implementation 'com.google.code.gson:gson:2.8.2'
+}
+
+// 发布到本地maven仓库
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'io.github.FlyJingFish.LightAop'
+            artifactId = 'light-aop-plugin'
+            version = '1.0.0'
+
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            url = "../repo"
+        }
+    }
+}
