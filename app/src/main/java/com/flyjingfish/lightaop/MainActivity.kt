@@ -12,13 +12,12 @@ class MainActivity:AppCompatActivity() {
         setContentView(R.layout.activity_main)
         var round :Round ?=null
         findViewById<Button>(R.id.haha).setOnClickListener {
-//            round = Round()
+            round = Round()
             onClick()
         }
 
         findViewById<Button>(R.id.haha1).setOnClickListener {
-//            round?.setRunnable { }
-            onClick1()
+            round?.setRunnable { }
         }
 
         findViewById<Button>(R.id.haha2).setOnClickListener {
@@ -46,8 +45,4 @@ class MainActivity:AppCompatActivity() {
 
 
 
-    @DebugLog2
-    public fun onClick1(){
-        Log.e("onClick","---2---")
-    }
 }
