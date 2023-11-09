@@ -1,6 +1,7 @@
 plugins {
     id 'groovy'
     id 'maven-publish'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 java {
@@ -12,8 +13,8 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
     implementation 'com.android.tools.build:gradle:8.0.0'
-    implementation "org.aspectj:aspectjtools:1.9.7"
-    implementation 'com.google.code.gson:gson:2.8.2'
+    api "org.aspectj:aspectjtools:1.9.8"
+    api 'org.aspectj:aspectjweaver:1.9.8'
 }
 
 // 发布到本地maven仓库

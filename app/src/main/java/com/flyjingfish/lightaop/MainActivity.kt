@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity:AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.haha).setOnClickListener {
             onClick()
@@ -26,15 +26,8 @@ class MainActivity:AppCompatActivity() {
 //
 //    }
 
+    @DebugLog
     public fun onClick(){
-        val test = Test()
-        if (test.intercept()){
-            //植入代码
-            val pointClass = PointClass()
-            pointClass.setTest(test)
-            pointClass.run()
-            return
-        }
         Log.e("onClick","------")
     }
 
