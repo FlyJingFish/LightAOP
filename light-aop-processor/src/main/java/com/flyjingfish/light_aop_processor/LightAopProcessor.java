@@ -61,7 +61,7 @@ public class LightAopProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        System.out.println("======LightAopProcessorJava======");
+        System.out.println("======LightAopProcessorJava======"+set.size());
         if (isEmpty(set)){
             return false;
         }
@@ -159,7 +159,7 @@ public class LightAopProcessor extends AbstractProcessor {
 
     public void processMatch(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(LightAopMatchClassMethod.class);
-        System.out.println("======processMatch======"+elements.size());
+//        System.out.println("======processMatch======"+elements.size());
         for (TypeElement typeElement: set){
             Name name = typeElement.getSimpleName();
             for (Element element : elements) {
