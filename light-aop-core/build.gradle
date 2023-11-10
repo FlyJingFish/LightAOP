@@ -1,21 +1,19 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'light.aop'
 }
 
 android {
-    namespace 'com.flyjingfish.lightaop'
+    namespace 'com.flyjingfish.light_aop_core'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.flyjingfish.lightaop"
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -43,5 +41,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation project(path: ":light-aop-annotation")
     annotationProcessor project(path: ":light-aop-processor")
-    implementation project(path: ":light-aop-core")
 }

@@ -2,6 +2,10 @@ package com.flyjingfish.lightaop;
 
 import android.util.Log;
 
+import com.flyjingfish.light_aop_core.annotations.DefaultAnnotation;
+import com.flyjingfish.light_aop_core.annotations.MainThread;
+import com.flyjingfish.light_aop_core.annotations.Permission;
+
 
 public class Round {
     public Runnable runnable;
@@ -10,15 +14,17 @@ public class Round {
     }
 
 //    @DebugLog
+    @DefaultAnnotation
     @DebugLog2("hahhhhhhhhhhhh")
-    @DebugLog(annotationClass = HahaLightAop.class ,lannotation = @LightAopAnnotation(stringValues = {"你哈哈好啦","2"}))
     public Runnable getRunnable() {
         return runnable;
     }
-//    @DebugLog
 
+    @MainThread
     public void setRunnable(Runnable runnable) {
         this.runnable = runnable;
+        Log.e("Round","setRunnable");
+        Log.e("Round","setRunnable");
         Log.e("Round","setRunnable");
     }
 }

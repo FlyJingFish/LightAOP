@@ -30,6 +30,7 @@ public class LightAop2 {
                 Log.e(TAG, "before: annotation == null");
             } else {
                 Log.i(TAG, "Method invoked: "+className+"."+methodName);
+                Log.i(TAG, "Method invoked: "+className+"."+methodName);
             }
         } catch (Throwable e) {
             Log.e(TAG, "beforeDebugLog: failed on error: ", e);
