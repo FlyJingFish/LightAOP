@@ -1,15 +1,11 @@
-package com.flyjingfish.light_aop_core.aop
+package com.flyjingfish.light_aop_core.cut
 
 import android.util.Log
 import android.view.View
 import com.flyjingfish.light_aop_core.annotations.SingleClick
 import org.aspectj.lang.ProceedingJoinPoint
 
-class SingleClickAop : ClickAop<SingleClick>() {
-    override fun beforeInvoke(annotation: SingleClick) {
-        Log.e("SingleClickAop","beforeInvoke")
-    }
-
+class SingleClickCut : ClickCut<SingleClick>() {
     override fun invoke(joinPoint: ProceedingJoinPoint, annotation: SingleClick): Any? {
         Log.e("SingleClickAop","invoke")
         var view: View? = null
@@ -31,7 +27,4 @@ class SingleClickAop : ClickAop<SingleClick>() {
         return null
     }
 
-    override fun afterInvoke(annotation: SingleClick) {
-        Log.e("SingleClickAop","afterInvoke")
-    }
 }

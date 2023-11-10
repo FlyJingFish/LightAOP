@@ -38,9 +38,7 @@ class LightAopPlugin implements Plugin<Project> {
             implementation 'org.aspectj:aspectjrt:1.9.8'
         }
 
-        log.error "====================================="
-        log.error "==LightAOP::Aspectj切片开始编织Class!=="
-        log.error "====================================="
+
 
         variants.all { variant ->
             variant.outputs.all { output ->
@@ -64,7 +62,7 @@ class LightAopPlugin implements Plugin<Project> {
                                          "-d", javaCompile.destinationDirectory.asFile.getOrNull().toString(),
                                          "-classpath", javaCompile.classpath.asPath,
                                          "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
-                    println "ajc javaArgs: " + Arrays.toString(javaArgs)
+//                    println "ajc javaArgs: " + Arrays.toString(javaArgs)
                     String[] kotlinArgs = ["-showWeaveInfo",
                                            "-1.8",
                                            "-inpath", project.buildDir.path + "/tmp/kotlin-classes/" + fullName,
@@ -73,7 +71,10 @@ class LightAopPlugin implements Plugin<Project> {
                                            "-classpath", javaCompile.classpath.asPath,
                                            "-bootclasspath", project.android.bootClasspath.join(
                             File.pathSeparator)]
-                    println "ajc kotlinArgs: " + Arrays.toString(kotlinArgs)
+//                    println "ajc kotlinArgs: " + Arrays.toString(kotlinArgs)
+                    log.error "====================================="
+                    log.error "==LightAOP::Aspectj切片开始编织Class!=="
+                    log.error "====================================="
                     MessageHandler handler = new MessageHandler(true);
                     new Main().run(javaArgs, handler);
                     for (IMessage message : handler.getMessages(null, true)) {

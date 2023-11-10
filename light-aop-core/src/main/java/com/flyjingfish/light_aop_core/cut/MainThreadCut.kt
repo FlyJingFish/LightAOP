@@ -1,17 +1,13 @@
-package com.flyjingfish.light_aop_core.aop
+package com.flyjingfish.light_aop_core.cut
 
 import android.os.Looper
 import android.util.Log
-import com.flyjingfish.light_aop_annotation.BaseLightAop
+import com.flyjingfish.light_aop_annotation.BasePointCut
 import com.flyjingfish.light_aop_core.annotations.MainThread
 import com.flyjingfish.light_aop_core.utils.AppExecutors
 import org.aspectj.lang.ProceedingJoinPoint
 
-class MainThreadAop : BaseLightAop<MainThread>{
-    override fun beforeInvoke(annotation: MainThread) {
-        Log.e("MainThreadAop","beforeInvoke")
-    }
-
+class MainThreadCut : BasePointCut<MainThread>{
     override fun invoke(joinPoint: ProceedingJoinPoint, annotation: MainThread): Any? {
         Log.e("MainThreadAop","invoke")
         if (Looper.getMainLooper() == Looper.myLooper()){
@@ -28,7 +24,4 @@ class MainThreadAop : BaseLightAop<MainThread>{
         return null
     }
 
-    override fun afterInvoke(annotation: MainThread) {
-        Log.e("MainThreadAop","afterInvoke")
-    }
 }

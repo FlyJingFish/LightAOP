@@ -1,9 +1,9 @@
-package com.flyjingfish.light_aop_core.aop
+package com.flyjingfish.light_aop_core.cut
 
 import android.view.View
-import com.flyjingfish.light_aop_annotation.BaseLightAop
+import com.flyjingfish.light_aop_annotation.BasePointCut
 
-abstract class ClickAop<T : Annotation> :BaseLightAop<T> {
+abstract class ClickCut<T : Annotation> :BasePointCut<T> {
     private var sLastClickTime: Long = 0
 
     private var sLastClickViewId = 0

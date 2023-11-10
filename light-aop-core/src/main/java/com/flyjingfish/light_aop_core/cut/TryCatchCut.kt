@@ -1,16 +1,13 @@
-package com.flyjingfish.light_aop_core.aop
+package com.flyjingfish.light_aop_core.cut
 
 import android.text.TextUtils
-import com.flyjingfish.light_aop_annotation.BaseLightAop
+import com.flyjingfish.light_aop_annotation.BasePointCut
 import com.flyjingfish.light_aop_core.annotations.TryCatch
 import com.flyjingfish.light_aop_core.utils.LightAop
 import com.flyjingfish.light_aop_core.utils.Utils
 import org.aspectj.lang.ProceedingJoinPoint
 
-class TryCatchAop :BaseLightAop<TryCatch> {
-    override fun beforeInvoke(annotation: TryCatch) {
-    }
-
+class TryCatchCut :BasePointCut<TryCatch> {
     override fun invoke(joinPoint: ProceedingJoinPoint, tryCatch: TryCatch): Any? {
         var result: Any?
         try {
@@ -23,8 +20,5 @@ class TryCatchAop :BaseLightAop<TryCatch> {
             result =  LightAop.getOnThrowableListener()?.handleThrowable(flag, e)
         }
         return result
-    }
-
-    override fun afterInvoke(annotation: TryCatch) {
     }
 }

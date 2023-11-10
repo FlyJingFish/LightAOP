@@ -17,7 +17,7 @@
 package com.flyjingfish.light_aop_core.annotations;
 
 import com.flyjingfish.light_aop_annotation.LightAopPointCut;
-import com.flyjingfish.light_aop_core.aop.IOThreadAop;
+import com.flyjingfish.light_aop_core.cut.IOThreadCut;
 import com.flyjingfish.light_aop_core.enums.ThreadType;
 
 import java.lang.annotation.ElementType;
@@ -25,7 +25,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@LightAopPointCut(IOThreadAop.class)
+@LightAopPointCut(IOThreadCut.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface IOThread {

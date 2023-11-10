@@ -1,4 +1,4 @@
-package com.flyjingfish.light_aop_core.aop
+package com.flyjingfish.light_aop_core.cut
 
 import android.os.Looper
 import android.util.Log
@@ -6,16 +6,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.flyjingfish.light_aop_annotation.BaseLightAop
+import com.flyjingfish.light_aop_annotation.BasePointCut
 import com.flyjingfish.light_aop_core.annotations.OnLifecycle
 import com.flyjingfish.light_aop_core.utils.AppExecutors
 import org.aspectj.lang.ProceedingJoinPoint
 
-class OnLifecycleAop :BaseLightAop<OnLifecycle> {
-    override fun beforeInvoke(annotation: OnLifecycle) {
-        Log.e("OnLifecycleAop","beforeInvoke")
-    }
-
+class OnLifecycleCut :BasePointCut<OnLifecycle> {
     override fun invoke(joinPoint: ProceedingJoinPoint, annotation: OnLifecycle): Any? {
         Log.e("OnLifecycleAop","invoke")
 
@@ -27,10 +23,6 @@ class OnLifecycleAop :BaseLightAop<OnLifecycle> {
             }
         }
         return null
-    }
-
-    override fun afterInvoke(annotation: OnLifecycle) {
-        Log.e("OnLifecycleAop","afterInvoke")
     }
 
     private fun invokeLifecycle(joinPoint: ProceedingJoinPoint, annotation: OnLifecycle){

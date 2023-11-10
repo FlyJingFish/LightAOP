@@ -1,5 +1,6 @@
 package com.flyjingfish.lightaop
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -11,7 +12,7 @@ import com.flyjingfish.light_aop_core.annotations.MainThread
 import com.flyjingfish.light_aop_core.annotations.SingleClick
 import com.flyjingfish.light_aop_core.enums.ThreadType
 
-class MainActivity:AppCompatActivity() {
+class MainActivity:BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,12 +20,14 @@ class MainActivity:AppCompatActivity() {
         var round :Round ?=null
         findViewById<Button>(R.id.haha).setOnClickListener {
             round = Round()
-            onClick()
+//            onClick()
+            startActivity(Intent(this,SecondActivity::class.java))
         }
 
         findViewById<Button>(R.id.haha1).setOnClickListener {
             round?.setRunnable { }
 
+            startActivity(Intent(this,ThirdActivity::class.java))
             onSingleClick()
         }
 

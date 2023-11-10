@@ -17,15 +17,14 @@
 package com.flyjingfish.light_aop_core.annotations;
 
 import com.flyjingfish.light_aop_annotation.LightAopPointCut;
-import com.flyjingfish.light_aop_core.aop.SingleClickAop;
-import com.flyjingfish.light_aop_core.aop.TryCatchAop;
+import com.flyjingfish.light_aop_core.cut.TryCatchCut;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@LightAopPointCut(TryCatchAop.class)
+@LightAopPointCut(TryCatchCut.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface TryCatch {

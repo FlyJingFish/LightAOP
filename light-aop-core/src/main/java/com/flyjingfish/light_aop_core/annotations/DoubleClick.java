@@ -17,15 +17,14 @@
 package com.flyjingfish.light_aop_core.annotations;
 
 import com.flyjingfish.light_aop_annotation.LightAopPointCut;
-import com.flyjingfish.light_aop_core.aop.DoubleClickAop;
-import com.flyjingfish.light_aop_core.aop.SingleClickAop;
+import com.flyjingfish.light_aop_core.cut.DoubleClickCut;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@LightAopPointCut(DoubleClickAop.class)
+@LightAopPointCut(DoubleClickCut.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface DoubleClick {

@@ -1,15 +1,11 @@
-package com.flyjingfish.light_aop_core.aop
+package com.flyjingfish.light_aop_core.cut
 
 import android.util.Log
 import android.view.View
 import com.flyjingfish.light_aop_core.annotations.DoubleClick
 import org.aspectj.lang.ProceedingJoinPoint
 
-class DoubleClickAop : ClickAop<DoubleClick>() {
-    override fun beforeInvoke(annotation: DoubleClick) {
-        Log.e("DoubleClickAop","beforeInvoke")
-    }
-
+class DoubleClickCut : ClickCut<DoubleClick>() {
     override fun invoke(joinPoint: ProceedingJoinPoint, annotation: DoubleClick): Any? {
         Log.e("DoubleClickAop","invoke")
         var view: View? = null
@@ -31,7 +27,4 @@ class DoubleClickAop : ClickAop<DoubleClick>() {
         return null
     }
 
-    override fun afterInvoke(annotation: DoubleClick) {
-        Log.e("DoubleClickAop","afterInvoke")
-    }
 }

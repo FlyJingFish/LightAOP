@@ -1,39 +1,41 @@
 package com.flyjingfish.light_aop_core.utils
 
 import android.text.TextUtils
-import com.flyjingfish.light_aop_annotation.BaseLightAop
-import com.flyjingfish.light_aop_core.aop.CustomInterceptAop
+import com.flyjingfish.light_aop_annotation.BasePointCut
+import com.flyjingfish.light_aop_annotation.MatchClassMethod
+import com.flyjingfish.light_aop_core.cut.CustomInterceptCut
 import org.aspectj.lang.ProceedingJoinPoint
 import java.util.concurrent.ConcurrentHashMap
 
 object LightAopBeanUtils {
-    var baseLightAopMap = ConcurrentHashMap<String, BaseLightAop<*>?>()
+    var basePointCutMap = ConcurrentHashMap<String, BasePointCut<*>?>()
+    var matchClassMethodMap = ConcurrentHashMap<String, MatchClassMethod?>()
 
-    fun getBaseLightAop(joinPoint: ProceedingJoinPoint, clsName: String): BaseLightAop<*>? {
+    fun getBasePointCut(joinPoint: ProceedingJoinPoint, clsName: String): BasePointCut<*> {
         val className = joinPoint.getThis().javaClass.name
         val methodName = joinPoint.signature.name
         val key = "$className.$methodName"
-        var baseLightAop: BaseLightAop<*>?
+        var basePointCut: BasePointCut<*>?
         if (TextUtils.isEmpty(key)) {
-            baseLightAop = getNewAop(clsName)
+            basePointCut = getNewPointCut(clsName)
         } else {
-            baseLightAop = baseLightAopMap[key]
-            if (baseLightAop == null) {
-                baseLightAop = getNewAop(clsName)
-                baseLightAopMap[key] = baseLightAop
+            basePointCut = basePointCutMap[key]
+            if (basePointCut == null) {
+                basePointCut = getNewPointCut(clsName)
+                basePointCutMap[key] = basePointCut
             }
         }
-        return baseLightAop
+        return basePointCut
     }
 
-    private fun getNewAop(clsName: String): BaseLightAop<*>? {
-        val cls: Class<out BaseLightAop<*>> = try {
-            Class.forName(clsName) as Class<out BaseLightAop<*>>
+    private fun getNewPointCut(clsName: String): BasePointCut<*> {
+        val cls: Class<out BasePointCut<*>> = try {
+            Class.forName(clsName) as Class<out BasePointCut<*>>
         } catch (e: ClassNotFoundException) {
             throw RuntimeException(e)
         }
-        val baseLightAop: BaseLightAop<*> = if (cls == BaseLightAop::class.java) {
-            CustomInterceptAop()
+        val basePointCut: BasePointCut<*> = if (cls == BasePointCut::class.java) {
+            CustomInterceptCut()
         } else {
             try {
                 cls.newInstance()
@@ -43,6 +45,33 @@ object LightAopBeanUtils {
                 throw RuntimeException(e)
             }
         }
-        return baseLightAop
+        return basePointCut
+    }
+
+
+    fun getMatchClassMethod(joinPoint: ProceedingJoinPoint, clsName: String): MatchClassMethod {
+        val className = joinPoint.getThis().javaClass.name
+        val methodName = joinPoint.signature.name
+        val key = "$className.$methodName"
+        var matchClassMethod: MatchClassMethod?
+        if (TextUtils.isEmpty(key)) {
+            matchClassMethod = getNewMatchClassMethod(clsName)
+        } else {
+            matchClassMethod = matchClassMethodMap[key]
+            if (matchClassMethod == null) {
+                matchClassMethod = getNewMatchClassMethod(clsName)
+                matchClassMethodMap[key] = matchClassMethod
+            }
+        }
+        return matchClassMethod
+    }
+
+    private fun getNewMatchClassMethod(clsName: String): MatchClassMethod {
+        val cls: Class<out MatchClassMethod> = try {
+            Class.forName(clsName) as Class<out MatchClassMethod>
+        } catch (e: ClassNotFoundException) {
+            throw RuntimeException(e)
+        }
+        return cls.newInstance()
     }
 }

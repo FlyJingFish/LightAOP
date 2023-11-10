@@ -1,10 +1,12 @@
 package com.flyjingfish.light_aop_processor;
 
+import com.flyjingfish.light_aop_annotation.LightAopMatchClassMethod;
 import com.flyjingfish.light_aop_annotation.LightAopPointCut;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -36,7 +38,7 @@ public class LightAopProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> set = new LinkedHashSet<>();
         set.add(LightAopPointCut.class.getCanonicalName());
-//        set.add(LightAopPointCut2.class.getCanonicalName());
+        set.add(LightAopMatchClassMethod.class.getCanonicalName());
         return set;
     }
     @Override
@@ -45,6 +47,9 @@ public class LightAopProcessor extends AbstractProcessor {
     }
     public static boolean isEmpty(final Map<?,?> map) {
         return map == null || map.isEmpty();
+    }
+    public static boolean isEmpty(final Set<?> set) {
+        return set == null || set.isEmpty();
     }
     public static boolean isNotEmpty(final Map<?,?> map) {
         return !isEmpty(map);
@@ -58,6 +63,15 @@ public class LightAopProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         System.out.println("======LightAopProcessorJava======");
+        if (isEmpty(set)){
+            return false;
+        }
+        processPointCut(set, roundEnvironment);
+        processMatch(set, roundEnvironment);
+        return false;
+    }
+
+    public boolean processPointCut(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(LightAopPointCut.class);
         for (TypeElement typeElement: set){
             Name name = typeElement.getSimpleName();
@@ -82,8 +96,8 @@ public class LightAopProcessor extends AbstractProcessor {
                         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
                 MethodSpec.Builder whatsMyName1 = whatsMyName("withinAnnotatedClass")
                         .addAnnotation(AnnotationSpec.builder(Pointcut.class)
-                        .addMember("value", "$S", "within(@"+element+" *)")
-                        .build());
+                                .addMember("value", "$S", "within(@"+element+" *)")
+                                .build());
 
                 MethodSpec.Builder whatsMyName2 = whatsMyName("methodInsideAnnotatedType")
                         .addAnnotation(AnnotationSpec.builder(Pointcut.class)
@@ -121,10 +135,8 @@ public class LightAopProcessor extends AbstractProcessor {
                                 .build());
 
 //                whatsMyName6.addStatement("com.flyjingfish.light_aop_annotation.BaseLightAop baseLightAop = $T.INSTANCE.getBaseLightAop($R,$S)", ClassName.get("com.flyjingfish.light_aop_core.utils","LightAopBeanUtils"), ParameterSpec.builder(ProceedingJoinPoint.class, "joinPoint").build(), className);
-                whatsMyName6.addStatement("com.flyjingfish.light_aop_annotation.BaseLightAop baseLightAop = $T.INSTANCE.getBaseLightAop(joinPoint,$S)", ClassName.get("com.flyjingfish.light_aop_core.utils","LightAopBeanUtils"), className);
-                whatsMyName6.addStatement("baseLightAop.beforeInvoke("+valueName+")");
+                whatsMyName6.addStatement("com.flyjingfish.light_aop_annotation.BasePointCut baseLightAop = $T.INSTANCE.getBasePointCut(joinPoint,$S)", ClassName.get("com.flyjingfish.light_aop_core.utils","LightAopBeanUtils"), className);
                 whatsMyName6.addStatement("Object result = baseLightAop.invoke(joinPoint,"+valueName+")");
-                whatsMyName6.addStatement("baseLightAop.afterInvoke("+valueName+")");
                 whatsMyName6.returns(Object.class).addStatement("return result");
                 typeBuilder.addMethod(whatsMyName1.build());
                 typeBuilder.addMethod(whatsMyName2.build());
@@ -135,17 +147,106 @@ public class LightAopProcessor extends AbstractProcessor {
 
                 TypeSpec typeSpec = typeBuilder.build();
 
-                JavaFile javaFile = JavaFile.builder("com.flyjingfish.light_aop_core.aop", typeSpec)
+                JavaFile javaFile = JavaFile.builder("com.flyjingfish.light_aop_core.cut", typeSpec)
                         .build();
                 try {
                     javaFile.writeTo(mFiler);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+//                    throw new RuntimeException(e);
                 }
             }
         }
         return false;
     }
+
+    public boolean processMatch(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(LightAopMatchClassMethod.class);
+        System.out.println("======processMatch======"+elements.size());
+        for (TypeElement typeElement: set){
+            Name name = typeElement.getSimpleName();
+            for (Element element : elements) {
+                Name name1 = element.getSimpleName();
+                System.out.println("======"+name);
+                System.out.println("======"+element);
+                String matchClassName = element.toString();
+                LightAopMatchClassMethod cut = element.getAnnotation(LightAopMatchClassMethod.class);
+                String methodName = cut.methodName();
+                String targetClassName;
+                try{
+                    targetClassName = cut.targetClass().getName();
+                }catch (MirroredTypeException mirroredTypeException){
+                    String errorMessage = mirroredTypeException.getLocalizedMessage();
+                    targetClassName = errorMessage.substring( errorMessage.lastIndexOf(" ")+1);
+//                    System.out.printf("%n成功转换出类型：%s%n", targetClassName);
+                }
+//                System.out.println("===cut==="+targetClassName);
+//                System.out.println("===target==="+target.value()[0]);
+                TypeSpec.Builder typeBuilder = TypeSpec.classBuilder(name1+"$$AspectJ")
+                        .addAnnotation(Aspect.class)
+                        .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
+                MethodSpec.Builder whatsMyName1 = whatsMyName("targetMethod")
+                        .addAnnotation(AnnotationSpec.builder(Pointcut.class)
+                                .addMember("value", "$S", "execution(void "+targetClassName+"+."+methodName+"(..))")
+                                .build());
+
+
+                String elementName = element.toString();
+                String packageName = elementName.substring(0,elementName.lastIndexOf("."));
+                String simpleName = elementName.substring(elementName.lastIndexOf(".")+1);
+                String valueName = "v"+simpleName;
+
+//                System.out.println("===packageName==="+packageName);
+//                System.out.println("===simpleName==="+simpleName);
+                MethodSpec.Builder whatsMyName2 = whatsMyName("logAndExecute")
+                        .addParameter(ProceedingJoinPoint.class,"joinPoint",Modifier.FINAL)
+                        .addAnnotation(AnnotationSpec.builder(Around.class)
+                                .addMember("value", "$S","(targetMethod())")
+                                .build());
+
+                whatsMyName2.addStatement("com.flyjingfish.light_aop_annotation.MatchClassMethod matchClassMethod = $T.INSTANCE.getMatchClassMethod(joinPoint,$S)", ClassName.get("com.flyjingfish.light_aop_core.utils","LightAopBeanUtils"),element.toString());
+                whatsMyName2.addStatement("Object result = null");
+//                whatsMyName2.addStatement(
+//                        "if ($T.equals(joinPoint.getTarget().getClass().getName(),\""+targetClassName+"\") && matchClassMethod.containsBaseTargetClass()){\n" +
+//                        "     result = matchClassMethod.invoke(joinPoint);\n" +
+//                        "}else{" +
+//                                "try {\n" +
+//                                "        result = joinPoint.proceed();\n" +
+//                                "      } catch (Throwable e) {\n" +
+//                                "        throw new RuntimeException(e);\n" +
+//                                "      }"+
+//                                "}",ClassName.get("android.text","TextUtils"));
+//                whatsMyName2.addStatement(
+//                        "if (matchClassMethod.containsBaseTargetClass()){\n" +
+//                                "     result = matchClassMethod.invoke(joinPoint);\n" +
+//                                "}else if ($T.equals(joinPoint.getTarget().getClass().getName(),\""+targetClassName+"\")){" +
+//                                "\n" +
+//                                " result = matchClassMethod.invoke(joinPoint);\n"+
+//                                "}else{" +
+//                                "try {\n" +
+//                                "        result = joinPoint.proceed();\n" +
+//                                "      } catch (Throwable e) {\n" +
+//                                "        throw new RuntimeException(e);\n" +
+//                                "      }"+
+//                                "}",ClassName.get("android.text","TextUtils"));
+                whatsMyName2.addStatement("result = matchClassMethod.invoke(joinPoint)");
+                whatsMyName2.returns(Object.class).addStatement("return result");
+                typeBuilder.addMethod(whatsMyName1.build());
+                typeBuilder.addMethod(whatsMyName2.build());
+
+                TypeSpec typeSpec = typeBuilder.build();
+
+                JavaFile javaFile = JavaFile.builder("com.flyjingfish.light_aop_core.match", typeSpec)
+                        .build();
+                try {
+                    javaFile.writeTo(mFiler);
+                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return false;
+    }
+
 
     private static MethodSpec.Builder whatsMyName(String name) {
         return MethodSpec.methodBuilder(name)
