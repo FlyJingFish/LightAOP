@@ -12,12 +12,12 @@ enum class ThreadType {
     MultipleIO,
 
     /**
-     * 磁盘读写线程池(本质上是 {@link ThreadType#SingleIO} ）
+     * 磁盘读写线程池,本质上是 [ThreadType.SingleIO]
      */
     DiskIO,
 
     /**
-     * 网络请求线程池(本质上是 {@link ThreadType#MultipleIO}）
+     * 网络请求线程池,本质上是 [ThreadType.MultipleIO]
      */
     NetworkIO
 }
