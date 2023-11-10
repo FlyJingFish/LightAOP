@@ -20,7 +20,7 @@ class MainActivity:BaseActivity() {
         var round :Round ?=null
         findViewById<Button>(R.id.haha).setOnClickListener {
             round = Round()
-//            onClick()
+            onClick()
             startActivity(Intent(this,SecondActivity::class.java))
         }
 
@@ -49,7 +49,6 @@ class MainActivity:BaseActivity() {
 //
 //    }
 
-    @DebugLog1
     @IOThread(ThreadType.SingleIO)
     fun onClick(){
         Log.e("Test_MainThread","是否主线程="+(Looper.getMainLooper() == Looper.myLooper()))

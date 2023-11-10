@@ -6,7 +6,6 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -71,7 +70,7 @@ public class LightAopProcessor extends AbstractProcessor {
         return false;
     }
 
-    public boolean processPointCut(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+    public void processPointCut(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(LightAopPointCut.class);
         for (TypeElement typeElement: set){
             Name name = typeElement.getSimpleName();
@@ -156,10 +155,9 @@ public class LightAopProcessor extends AbstractProcessor {
                 }
             }
         }
-        return false;
     }
 
-    public boolean processMatch(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+    public void processMatch(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(LightAopMatchClassMethod.class);
         System.out.println("======processMatch======"+elements.size());
         for (TypeElement typeElement: set){
@@ -204,31 +202,7 @@ public class LightAopProcessor extends AbstractProcessor {
                                 .build());
 
                 whatsMyName2.addStatement("com.flyjingfish.light_aop_annotation.MatchClassMethod matchClassMethod = $T.INSTANCE.getMatchClassMethod(joinPoint,$S)", ClassName.get("com.flyjingfish.light_aop_core.utils","LightAopBeanUtils"),element.toString());
-                whatsMyName2.addStatement("Object result = null");
-//                whatsMyName2.addStatement(
-//                        "if ($T.equals(joinPoint.getTarget().getClass().getName(),\""+targetClassName+"\") && matchClassMethod.containsBaseTargetClass()){\n" +
-//                        "     result = matchClassMethod.invoke(joinPoint);\n" +
-//                        "}else{" +
-//                                "try {\n" +
-//                                "        result = joinPoint.proceed();\n" +
-//                                "      } catch (Throwable e) {\n" +
-//                                "        throw new RuntimeException(e);\n" +
-//                                "      }"+
-//                                "}",ClassName.get("android.text","TextUtils"));
-//                whatsMyName2.addStatement(
-//                        "if (matchClassMethod.containsBaseTargetClass()){\n" +
-//                                "     result = matchClassMethod.invoke(joinPoint);\n" +
-//                                "}else if ($T.equals(joinPoint.getTarget().getClass().getName(),\""+targetClassName+"\")){" +
-//                                "\n" +
-//                                " result = matchClassMethod.invoke(joinPoint);\n"+
-//                                "}else{" +
-//                                "try {\n" +
-//                                "        result = joinPoint.proceed();\n" +
-//                                "      } catch (Throwable e) {\n" +
-//                                "        throw new RuntimeException(e);\n" +
-//                                "      }"+
-//                                "}",ClassName.get("android.text","TextUtils"));
-                whatsMyName2.addStatement("result = matchClassMethod.invoke(joinPoint)");
+                whatsMyName2.addStatement("Object result = matchClassMethod.invoke(joinPoint)");
                 whatsMyName2.returns(Object.class).addStatement("return result");
                 typeBuilder.addMethod(whatsMyName1.build());
                 typeBuilder.addMethod(whatsMyName2.build());
@@ -244,7 +218,6 @@ public class LightAopProcessor extends AbstractProcessor {
                 }
             }
         }
-        return false;
     }
 
 

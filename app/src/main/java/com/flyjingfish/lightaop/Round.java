@@ -14,7 +14,6 @@ public class Round {
 
 //    @DebugLog
     @CustomIntercept
-    @DebugLog2("hahhhhhhhhhhhh")
     public Runnable getRunnable() {
         return runnable;
     }

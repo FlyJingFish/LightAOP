@@ -4,5 +4,4 @@ import org.aspectj.lang.ProceedingJoinPoint
 
 interface MatchClassMethod {
     fun invoke(joinPoint: ProceedingJoinPoint): Any?
-    fun containsBaseTargetClass(): Boolean
 }

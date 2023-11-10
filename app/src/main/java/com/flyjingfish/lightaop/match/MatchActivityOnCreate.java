@@ -23,9 +23,4 @@ public class MatchActivityOnCreate implements MatchClassMethod {
             return null;
         }
     }
-
-    @Override
-    public boolean containsBaseTargetClass() {
-        return false;
-    }
 }
