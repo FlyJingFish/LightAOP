@@ -17,18 +17,27 @@ class IOThreadAop : BaseLightAop<IOThread>{
     override fun invoke(joinPoint: ProceedingJoinPoint, ioThread: IOThread): Any? {
         Log.e("IOThreadAop","invoke")
         if (Looper.getMainLooper() != Looper.myLooper()){
-            joinPoint.proceed()
+            return joinPoint.proceed()
         }else{
-            val result: Any? = when (ioThread.value) {
-                ThreadType.Single, ThreadType.Disk -> AppExecutors.singleIO().submit(
-                    Callable<Any?> { getProceedResult(joinPoint) }).get()
+//            val result: Any? = when (ioThread.value) {
+//                ThreadType.Single, ThreadType.Disk -> AppExecutors.singleIO().submit(
+//                    Callable<Any?> { getProceedResult(joinPoint) }).get()
+//
+//                ThreadType.Fixed, ThreadType.Network -> AppExecutors.poolIO()
+//                    .submit(Callable<Any?> { getProceedResult(joinPoint) }).get()
+//            }
+            when (ioThread.value) {
+                ThreadType.Single, ThreadType.Disk -> AppExecutors.singleIO().execute {
+                    getProceedResult(
+                        joinPoint
+                    )
+                }
 
                 ThreadType.Fixed, ThreadType.Network -> AppExecutors.poolIO()
-                    .submit(Callable<Any?> { getProceedResult(joinPoint) }).get()
+                    .execute { getProceedResult(joinPoint) }
             }
-            return result
+            return null
         }
-        return null
     }
 
     override fun afterInvoke(annotation: IOThread) {
