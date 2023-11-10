@@ -1,9 +1,14 @@
 package com.flyjingfish.lightaop
 
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.flyjingfish.light_aop_core.annotations.IOThread
+import com.flyjingfish.light_aop_core.annotations.MainThread
+import com.flyjingfish.light_aop_core.enums.ThreadType
+import com.flyjingfish.light_aop_core.utils.AppExecutors
 
 class MainActivity:AppCompatActivity() {
 
@@ -37,12 +42,19 @@ class MainActivity:AppCompatActivity() {
 //    }
 
     @DebugLog1
-    public fun onClick(){
-        Log.e("onClick","---1---")
+    @IOThread(ThreadType.Single)
+    fun onClick(){
+        Log.e("Test_MainThread","是否主线程="+(Looper.getMainLooper() == Looper.myLooper()))
+        Log.e("Test_MainThread","开始睡5秒")
+        Thread.sleep(5000)
+        Log.e("Test_MainThread","睡醒了")
+        onMainThread()
     }
 
 
-
-
+    @MainThread
+    fun onMainThread(){
+        Log.e("Test_MainThread","onMainThread是否主线程="+(Looper.getMainLooper() == Looper.myLooper()))
+    }
 
 }

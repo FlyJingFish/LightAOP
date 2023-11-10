@@ -11,7 +11,7 @@ class DefaultLightAop : BaseLightAop<DefaultAnnotation?> {
     }
 
     override operator fun invoke(
-        joinPoint: ProceedingJoinPoint?,
+        joinPoint: ProceedingJoinPoint,
         defaultAnnotation: DefaultAnnotation?
     ): Any? {
         Log.e("DefaultLightAop", "=====invoke====")

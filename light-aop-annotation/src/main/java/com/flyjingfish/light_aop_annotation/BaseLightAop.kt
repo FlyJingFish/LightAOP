@@ -4,6 +4,6 @@ import org.aspectj.lang.ProceedingJoinPoint
 
 interface BaseLightAop<T : Annotation?> {
     fun beforeInvoke(annotation: T)
-    operator fun invoke(joinPoint: ProceedingJoinPoint?, annotation: T): Any?
+    operator fun invoke(joinPoint: ProceedingJoinPoint, annotation: T): Any?
     fun afterInvoke(annotation: T)
 }

@@ -10,7 +10,7 @@ class PermissionAop :BaseLightAop<Permission> {
         Log.e("PermissionAop","beforeInvoke")
     }
 
-    override fun invoke(joinPoint: ProceedingJoinPoint?, annotation: Permission): Any? {
+    override fun invoke(joinPoint: ProceedingJoinPoint, annotation: Permission): Any? {
         Log.e("PermissionAop","invoke")
         return null
     }
