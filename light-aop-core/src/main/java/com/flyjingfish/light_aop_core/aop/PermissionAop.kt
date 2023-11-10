@@ -16,6 +16,6 @@ class PermissionAop :BaseLightAop<Permission> {
     }
 
     override fun afterInvoke(annotation: Permission) {
-        Log.e("PermissionAop","PermissionAop")
+        Log.e("PermissionAop","afterInvoke")
     }
 }
