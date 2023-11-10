@@ -1,30 +1,23 @@
 package com.flyjingfish.light_aop_core.aop
 
-import android.util.Log
 import com.flyjingfish.light_aop_annotation.BaseLightAop
 import com.flyjingfish.light_aop_core.annotations.CustomIntercept
+import com.flyjingfish.light_aop_core.utils.LightAop
 import org.aspectj.lang.ProceedingJoinPoint
 
 class CustomInterceptAop : BaseLightAop<CustomIntercept> {
-    override fun beforeInvoke(customIntercept: CustomIntercept) {
-        Log.e("DefaultLightAop", "=====beforeInvoke====")
+    override fun beforeInvoke(annotation: CustomIntercept) {
+        LightAop.getOnCustomInterceptListener()?.beforeInvoke(annotation)
     }
 
-    override operator fun invoke(
+    override fun invoke(
         joinPoint: ProceedingJoinPoint,
-        customIntercept: CustomIntercept
+        annotation: CustomIntercept
     ): Any? {
-        Log.e("DefaultLightAop", "=====invoke====")
-        var oj: Any? = null
-        oj = try {
-            joinPoint!!.proceed()
-        } catch (e: Throwable) {
-            throw RuntimeException(e)
-        }
-        return oj
+        return LightAop.getOnCustomInterceptListener()?.invoke(joinPoint, annotation)
     }
 
-    override fun afterInvoke(customIntercept: CustomIntercept) {
-        Log.e("DefaultLightAop", "=====afterInvoke====")
+    override fun afterInvoke(annotation: CustomIntercept) {
+        LightAop.getOnCustomInterceptListener()?.afterInvoke(annotation)
     }
 }

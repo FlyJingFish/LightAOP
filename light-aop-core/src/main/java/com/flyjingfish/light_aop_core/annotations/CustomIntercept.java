@@ -12,4 +12,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE,ElementType.METHOD,ElementType.CONSTRUCTOR})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CustomIntercept {
+    String[] value() default {};
 }

@@ -4,20 +4,20 @@ enum class ThreadType {
     /**
      * 单线程池
      */
-    Single,
+    SingleIO,
 
     /**
      * 多线程池
      */
-    Fixed,
+    MultipleIO,
 
     /**
-     * 磁盘读写线程池(本质上是单线程池）
+     * 磁盘读写线程池(本质上是 {@link ThreadType#SingleIO} ）
      */
-    Disk,
+    DiskIO,
 
     /**
-     * 网络请求线程池(本质上是多线程池）
+     * 网络请求线程池(本质上是 {@link ThreadType#MultipleIO}）
      */
-    Network
+    NetworkIO
 }

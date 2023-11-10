@@ -7,7 +7,6 @@ import com.flyjingfish.light_aop_core.annotations.IOThread
 import com.flyjingfish.light_aop_core.enums.ThreadType
 import com.flyjingfish.light_aop_core.utils.AppExecutors
 import org.aspectj.lang.ProceedingJoinPoint
-import java.util.concurrent.Callable
 
 class IOThreadAop : BaseLightAop<IOThread>{
     override fun beforeInvoke(annotation: IOThread) {
@@ -27,13 +26,13 @@ class IOThreadAop : BaseLightAop<IOThread>{
 //                    .submit(Callable<Any?> { getProceedResult(joinPoint) }).get()
 //            }
             when (ioThread.value) {
-                ThreadType.Single, ThreadType.Disk -> AppExecutors.singleIO().execute {
+                ThreadType.SingleIO, ThreadType.DiskIO -> AppExecutors.singleIO().execute {
                     getProceedResult(
                         joinPoint
                     )
                 }
 
-                ThreadType.Fixed, ThreadType.Network -> AppExecutors.poolIO()
+                ThreadType.MultipleIO, ThreadType.NetworkIO -> AppExecutors.poolIO()
                     .execute { getProceedResult(joinPoint) }
             }
             return null

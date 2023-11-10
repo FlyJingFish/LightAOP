@@ -33,5 +33,5 @@ public @interface IOThread {
     /**
      * @return 子线程的类型，默认是多线程池
      */
-    ThreadType value() default ThreadType.Fixed;
+    ThreadType value() default ThreadType.MultipleIO;
 }
