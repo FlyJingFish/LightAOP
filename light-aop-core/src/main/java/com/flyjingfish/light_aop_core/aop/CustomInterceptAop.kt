@@ -2,17 +2,17 @@ package com.flyjingfish.light_aop_core.aop
 
 import android.util.Log
 import com.flyjingfish.light_aop_annotation.BaseLightAop
-import com.flyjingfish.light_aop_core.annotations.DefaultAnnotation
+import com.flyjingfish.light_aop_core.annotations.CustomIntercept
 import org.aspectj.lang.ProceedingJoinPoint
 
-class DefaultLightAop : BaseLightAop<DefaultAnnotation?> {
-    override fun beforeInvoke(defaultAnnotation: DefaultAnnotation?) {
+class CustomInterceptAop : BaseLightAop<CustomIntercept> {
+    override fun beforeInvoke(customIntercept: CustomIntercept) {
         Log.e("DefaultLightAop", "=====beforeInvoke====")
     }
 
     override operator fun invoke(
         joinPoint: ProceedingJoinPoint,
-        defaultAnnotation: DefaultAnnotation?
+        customIntercept: CustomIntercept
     ): Any? {
         Log.e("DefaultLightAop", "=====invoke====")
         var oj: Any? = null
@@ -24,7 +24,7 @@ class DefaultLightAop : BaseLightAop<DefaultAnnotation?> {
         return oj
     }
 
-    override fun afterInvoke(defaultAnnotation: DefaultAnnotation?) {
+    override fun afterInvoke(customIntercept: CustomIntercept) {
         Log.e("DefaultLightAop", "=====afterInvoke====")
     }
 }

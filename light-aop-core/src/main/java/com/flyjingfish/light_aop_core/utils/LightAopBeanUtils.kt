@@ -2,7 +2,7 @@ package com.flyjingfish.light_aop_core.utils
 
 import android.text.TextUtils
 import com.flyjingfish.light_aop_annotation.BaseLightAop
-import com.flyjingfish.light_aop_core.aop.DefaultLightAop
+import com.flyjingfish.light_aop_core.aop.CustomInterceptAop
 import org.aspectj.lang.ProceedingJoinPoint
 import java.util.concurrent.ConcurrentHashMap
 
@@ -33,7 +33,7 @@ object LightAopBeanUtils {
             throw RuntimeException(e)
         }
         val baseLightAop: BaseLightAop<*> = if (cls == BaseLightAop::class.java) {
-            DefaultLightAop()
+            CustomInterceptAop()
         } else {
             try {
                 cls.newInstance()

@@ -2,9 +2,8 @@ package com.flyjingfish.lightaop;
 
 import android.util.Log;
 
-import com.flyjingfish.light_aop_core.annotations.DefaultAnnotation;
+import com.flyjingfish.light_aop_core.annotations.CustomIntercept;
 import com.flyjingfish.light_aop_core.annotations.MainThread;
-import com.flyjingfish.light_aop_core.annotations.Permission;
 
 
 public class Round {
@@ -14,7 +13,7 @@ public class Round {
     }
 
 //    @DebugLog
-    @DefaultAnnotation
+    @CustomIntercept
     @DebugLog2("hahhhhhhhhhhhh")
     public Runnable getRunnable() {
         return runnable;

@@ -5,8 +5,12 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.flyjingfish.light_aop_core.annotations.DoubleClick
 import com.flyjingfish.light_aop_core.annotations.IOThread
 import com.flyjingfish.light_aop_core.annotations.MainThread
+import com.flyjingfish.light_aop_core.annotations.OnLifecycle
+import com.flyjingfish.light_aop_core.annotations.SingleClick
+import com.flyjingfish.light_aop_core.aop.OnLifecycleAop
 import com.flyjingfish.light_aop_core.enums.ThreadType
 import com.flyjingfish.light_aop_core.utils.AppExecutors
 
@@ -23,10 +27,14 @@ class MainActivity:AppCompatActivity() {
 
         findViewById<Button>(R.id.haha1).setOnClickListener {
             round?.setRunnable { }
+
+            onSingleClick()
         }
 
         findViewById<Button>(R.id.haha2).setOnClickListener {
             round?.getRunnable()
+
+            onDoubleClick()
         }
 
     }
@@ -55,6 +63,16 @@ class MainActivity:AppCompatActivity() {
     @MainThread
     fun onMainThread(){
         Log.e("Test_MainThread","onMainThread是否主线程="+(Looper.getMainLooper() == Looper.myLooper()))
+    }
+
+    @SingleClick
+    fun onSingleClick(){
+        Log.e("Test_click","onSingleClick")
+    }
+
+    @DoubleClick
+    fun onDoubleClick(){
+        Log.e("Test_click","onDoubleClick")
     }
 
 }
