@@ -10,7 +10,6 @@ import org.aspectj.lang.ProceedingJoinPoint
 
 class IOThreadCut : BasePointCut<IOThread>{
     override fun invoke(joinPoint: ProceedingJoinPoint, ioThread: IOThread): Any? {
-        Log.e("IOThreadAop","invoke")
         if (Looper.getMainLooper() != Looper.myLooper()){
             return joinPoint.proceed()
         }else{

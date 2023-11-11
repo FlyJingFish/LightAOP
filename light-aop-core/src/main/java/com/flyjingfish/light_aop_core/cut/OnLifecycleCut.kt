@@ -1,7 +1,6 @@
 package com.flyjingfish.light_aop_core.cut
 
 import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -12,14 +11,12 @@ import com.flyjingfish.light_aop_core.utils.AppExecutors
 import org.aspectj.lang.ProceedingJoinPoint
 
 class OnLifecycleCut :BasePointCut<OnLifecycle> {
-    override fun invoke(joinPoint: ProceedingJoinPoint, annotation: OnLifecycle): Any? {
-        Log.e("OnLifecycleAop","invoke")
-
+    override fun invoke(joinPoint: ProceedingJoinPoint, anno: OnLifecycle): Any? {
         if (Looper.getMainLooper() == Looper.myLooper()){
-            invokeLifecycle(joinPoint, annotation)
+            invokeLifecycle(joinPoint, anno)
         }else{
             AppExecutors.mainThread().execute {
-                invokeLifecycle(joinPoint, annotation)
+                invokeLifecycle(joinPoint, anno)
             }
         }
         return null

@@ -8,8 +8,7 @@ import com.flyjingfish.light_aop_core.utils.AppExecutors
 import org.aspectj.lang.ProceedingJoinPoint
 
 class MainThreadCut : BasePointCut<MainThread>{
-    override fun invoke(joinPoint: ProceedingJoinPoint, annotation: MainThread): Any? {
-        Log.e("MainThreadAop","invoke")
+    override fun invoke(joinPoint: ProceedingJoinPoint, anno: MainThread): Any? {
         if (Looper.getMainLooper() == Looper.myLooper()){
             joinPoint.proceed()
         }else{
