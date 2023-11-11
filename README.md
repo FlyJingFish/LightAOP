@@ -202,19 +202,17 @@ public class MatchActivityOnCreate implements MatchClassMethod {
 
 #### 混淆规则
 
+
 ```
--keep @com.flyjingfish.light_aop_core.annotations.* class * {*;}
--keep @com.flyjingfish.light_aop_core.cut.* class * {*;}
 -keep @com.flyjingfish.light_aop_annotation.* class * {*;}
+-keep @com.flyjingfish.light_aop_core.annotations.* class * {*;}
 -keep @org.aspectj.lang.annotation.* class * {*;}
 -keep class * {
     @com.flyjingfish.light_aop_core.annotations.* <fields>;
-    @com.flyjingfish.light_aop_annotation.* <fields>;
     @org.aspectj.lang.annotation.* <fields>;
 }
 -keepclassmembers class * {
     @com.flyjingfish.light_aop_core.annotations.* <methods>;
-    @com.flyjingfish.light_aop_annotation.* <methods>;
     @org.aspectj.lang.annotation.* <methods>;
 }
 ```
