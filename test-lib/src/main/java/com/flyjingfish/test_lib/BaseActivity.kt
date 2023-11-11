@@ -1,9 +1,9 @@
-package com.flyjingfish.lightaop
+package com.flyjingfish.test_lib
 
 import android.os.Bundle
-import com.flyjingfish.test_lib.BaseActivity
+import androidx.appcompat.app.AppCompatActivity
 
-class ThirdActivity : BaseActivity() {
+abstract class BaseActivity :AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

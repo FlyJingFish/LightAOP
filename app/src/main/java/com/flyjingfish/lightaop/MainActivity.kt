@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import com.flyjingfish.light_aop_core.annotations.DoubleClick
+import com.flyjingfish.test_lib.BaseActivity
 import com.flyjingfish.light_aop_core.annotations.IOThread
 import com.flyjingfish.light_aop_core.annotations.MainThread
-import com.flyjingfish.light_aop_core.annotations.SingleClick
 import com.flyjingfish.light_aop_core.enums.ThreadType
+import com.flyjingfish.test_lib.MyAnno
 
-class MainActivity:BaseActivity() {
+class MainActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +63,14 @@ class MainActivity:BaseActivity() {
         Log.e("Test_MainThread","onMainThread是否主线程="+(Looper.getMainLooper() == Looper.myLooper()))
     }
 
-    @SingleClick
+//    @SingleClick
+    @MyAnno
     fun onSingleClick(){
         Log.e("Test_click","onSingleClick")
     }
 
-    @DoubleClick
+//    @DoubleClick
+
     fun onDoubleClick(){
         Log.e("Test_click","onDoubleClick")
     }

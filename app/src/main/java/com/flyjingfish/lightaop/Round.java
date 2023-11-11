@@ -2,8 +2,8 @@ package com.flyjingfish.lightaop;
 
 import android.util.Log;
 
-import com.flyjingfish.light_aop_core.annotations.CustomIntercept;
 import com.flyjingfish.light_aop_core.annotations.MainThread;
+import com.flyjingfish.test_lib.MyAnno;
 
 
 public class Round {
@@ -13,7 +13,8 @@ public class Round {
     }
 
 //    @DebugLog
-    @CustomIntercept
+//    @CustomIntercept
+    @MyAnno
     public Runnable getRunnable() {
         return runnable;
     }

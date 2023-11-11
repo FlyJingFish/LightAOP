@@ -1,4 +1,4 @@
-package com.flyjingfish.lightaop.match;
+package com.flyjingfish.test_lib.match;
 
 import android.util.Log;
 
@@ -7,11 +7,10 @@ import androidx.annotation.Nullable;
 
 import com.flyjingfish.light_aop_annotation.LightAopMatchClassMethod;
 import com.flyjingfish.light_aop_annotation.MatchClassMethod;
-import com.flyjingfish.lightaop.BaseActivity;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 
-@LightAopMatchClassMethod(targetClass = BaseActivity.class, methodName = "onCreate")
+@LightAopMatchClassMethod(targetClassName = "com.flyjingfish.test_lib.BaseActivity", methodName = "onCreate")
 public class MatchActivityOnCreate implements MatchClassMethod {
     @Nullable
     @Override

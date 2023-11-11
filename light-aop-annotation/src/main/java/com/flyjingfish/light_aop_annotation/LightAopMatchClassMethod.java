@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(SOURCE)
 public @interface LightAopMatchClassMethod {
-    Class<?> targetClass();
+    String targetClassName();
 
     String methodName();
 }

@@ -5,7 +5,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-public class SecondActivity extends BaseActivity{
+import com.flyjingfish.test_lib.BaseActivity;
+
+public class SecondActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.e("SecondActivity","---");

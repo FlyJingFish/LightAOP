@@ -169,14 +169,7 @@ public class LightAopProcessor extends AbstractProcessor {
                 String matchClassName = element.toString();
                 LightAopMatchClassMethod cut = element.getAnnotation(LightAopMatchClassMethod.class);
                 String methodName = cut.methodName();
-                String targetClassName;
-                try{
-                    targetClassName = cut.targetClass().getName();
-                }catch (MirroredTypeException mirroredTypeException){
-                    String errorMessage = mirroredTypeException.getLocalizedMessage();
-                    targetClassName = errorMessage.substring( errorMessage.lastIndexOf(" ")+1);
-//                    System.out.printf("%n成功转换出类型：%s%n", targetClassName);
-                }
+                String targetClassName = cut.targetClassName();
 //                System.out.println("===cut==="+targetClassName);
 //                System.out.println("===target==="+target.value()[0]);
                 TypeSpec.Builder typeBuilder = TypeSpec.classBuilder(name1+"$$AspectJ")
