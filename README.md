@@ -138,7 +138,7 @@ LightAop.INSTANCE.setOnCustomInterceptListener(new OnCustomInterceptListener() {
 
 本库中提供了 @LightAopPointCut 和 @LightAopMatchClassMethod 两种切面供你使用
 
-⚠️使用这两个注解只可以用 Java 代码
+⚠️被两个注解的类只可以用 Java 代码
 
 - @LightAopPointCut 是在方法上和构造器上做切面的，上述中注解都是通过这个做的
 
@@ -153,9 +153,13 @@ public @interface CustomIntercept {
 }
 ```
 @LightAopPointCut 的 CustomInterceptCut.class 为您处理切面的类
+
 @Target 的 ElementType.METHOD 表示作用在方法上
+
 @Target 的 ElementType.CONSTRUCTOR 表示作用在构造器上
+
 @Retention 只可以用 RetentionPolicy.RUNTIME
+
 @Target 只可以传 ElementType.METHOD 和 ElementType.CONSTRUCTOR,传其他无作用
 
 CustomInterceptCut 的代码(可以用kotlin) 如下：
@@ -196,7 +200,7 @@ public class MatchActivityOnCreate implements MatchClassMethod {
 
 例如你想做退出登陆逻辑时可以使用这个，注意实现MatchClassMethod接口的类只可以用 Java 代码
 
-混淆规则
+#### 混淆规则
 
 ```
 -keep @com.flyjingfish.light_aop_core.annotations.* class * {*;}
