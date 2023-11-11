@@ -95,12 +95,5 @@ nexusPublishing {
             username = ossrhUsername // defaults to project.properties["myNexusUsername"]
             password = ossrhPassword // defaults to project.properties["myNexusPassword"]
         }
-
-//        myProject {
-//            nexusUrl = layout.buildDirectory.dir('repos/releases')
-//            snapshotRepositoryUrl = layout.buildDirectory.dir('repos/snapshots')
-//            username = ossrhUsername // defaults to project.properties["myNexusUsername"]
-//            password = ossrhPassword // defaults to project.properties["myNexusPassword"]
-//        }
     }
 }
