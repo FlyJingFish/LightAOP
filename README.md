@@ -216,8 +216,8 @@ public class MatchActivityOnCreate implements MatchClassMethod {
     @org.aspectj.lang.annotation.* <methods>;
 }
 
--keep public class * implements com.flyjingfish.light_aop_annotation.BasePointCut
--keep public class * implements com.flyjingfish.light_aop_annotation.MatchClassMethod
+-keep class * implements com.flyjingfish.light_aop_annotation.BasePointCut
+-keep class * implements com.flyjingfish.light_aop_annotation.MatchClassMethod
 -keep class * implements com.flyjingfish.light_aop_annotation.BasePointCut{
     <fields>;
 }
