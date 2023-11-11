@@ -86,7 +86,7 @@ task bumpVersion() {
 def appVersionName = getAppVersionName()
 group = PROJ_GROUP
 version = appVersionName
-apply plugin: "io.github.gradle-nexus.publish-plugin"
+//apply plugin: "io.github.gradle-nexus.publish-plugin"
 nexusPublishing {
     repositories {
         Nexus {

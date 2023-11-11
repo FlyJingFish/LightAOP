@@ -62,7 +62,7 @@ class LightAopPlugin implements Plugin<Project> {
                                          "-d", javaCompile.destinationDirectory.asFile.getOrNull().toString(),
                                          "-classpath", javaCompile.classpath.asPath,
                                          "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
-//                    println "ajc javaArgs: " + Arrays.toString(javaArgs)
+                    println "ajc javaArgs: " + Arrays.toString(javaArgs)
                     String[] kotlinArgs = ["-showWeaveInfo",
                                            "-1.8",
                                            "-inpath", project.buildDir.path + "/tmp/kotlin-classes/" + fullName,
@@ -71,7 +71,7 @@ class LightAopPlugin implements Plugin<Project> {
                                            "-classpath", javaCompile.classpath.asPath,
                                            "-bootclasspath", project.android.bootClasspath.join(
                             File.pathSeparator)]
-//                    println "ajc kotlinArgs: " + Arrays.toString(kotlinArgs)
+                    println "ajc kotlinArgs: " + Arrays.toString(kotlinArgs)
                     log.error "====================================="
                     log.error "==LightAOP::Aspectj切片开始编织Class!=="
                     log.error "====================================="

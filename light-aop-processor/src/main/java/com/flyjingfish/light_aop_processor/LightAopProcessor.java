@@ -184,7 +184,7 @@ public class LightAopProcessor extends AbstractProcessor {
                         .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
                 MethodSpec.Builder whatsMyName1 = whatsMyName("targetMethod")
                         .addAnnotation(AnnotationSpec.builder(Pointcut.class)
-                                .addMember("value", "$S", "execution(void "+targetClassName+"+."+methodName+"(..))")
+                                .addMember("value", "$S", "execution(* "+targetClassName+"+."+methodName+"(..))")
                                 .build());
 
                 String elementName = element.toString();
