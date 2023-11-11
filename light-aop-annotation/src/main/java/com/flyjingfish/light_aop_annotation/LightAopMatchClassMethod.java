@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 public @interface LightAopMatchClassMethod {
     String targetClassName();
 
-    String methodName();
+    String[] methodName();
 }

@@ -62,4 +62,9 @@ public class SecondActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }
