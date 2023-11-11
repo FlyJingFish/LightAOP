@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.widget.Button
+import com.flyjingfish.light_aop_core.annotations.CustomIntercept
 import com.flyjingfish.test_lib.BaseActivity
-import com.flyjingfish.light_aop_core.annotations.IOThread
 import com.flyjingfish.light_aop_core.annotations.MainThread
 import com.flyjingfish.light_aop_core.annotations.TryCatch
-import com.flyjingfish.light_aop_core.enums.ThreadType
-import com.flyjingfish.test_lib.MyAnno
+import com.flyjingfish.test_lib.annotations.MyAnno
 
 class MainActivity: BaseActivity() {
 
@@ -51,7 +50,8 @@ class MainActivity: BaseActivity() {
 //
 //    }
 
-    @IOThread(ThreadType.SingleIO)
+//    @IOThread(ThreadType.SingleIO)
+    @CustomIntercept
     fun onClick(){
         Log.e("Test_MainThread","是否主线程="+(Looper.getMainLooper() == Looper.myLooper()))
         Log.e("Test_MainThread","开始睡5秒")

@@ -215,9 +215,11 @@ public class MatchActivityOnCreate implements MatchClassMethod {
 
 #### 混淆规则
 
-下边是涉及到本库的一些混淆规则
+下边是涉及到本库的一些必须混淆规则
 
 ```
+# LightAop必备混淆规则 -----start-----
+
 -keep @com.flyjingfish.light_aop_annotation.* class * {*;}
 -keep @com.flyjingfish.light_aop_core.annotations.* class * {*;}
 -keep @org.aspectj.lang.annotation.* class * {*;}
@@ -230,14 +232,51 @@ public class MatchActivityOnCreate implements MatchClassMethod {
     @org.aspectj.lang.annotation.* <methods>;
 }
 
--keep class * implements com.flyjingfish.light_aop_annotation.BasePointCut
--keep class * implements com.flyjingfish.light_aop_annotation.MatchClassMethod
+-keepnames class * implements com.flyjingfish.light_aop_annotation.BasePointCut
+-keepnames class * implements com.flyjingfish.light_aop_annotation.MatchClassMethod
 -keep class * implements com.flyjingfish.light_aop_annotation.BasePointCut{
-    <fields>;
+    public <init>();
 }
 -keepclassmembers class * implements com.flyjingfish.light_aop_annotation.BasePointCut{
     <methods>;
 }
+
+-keep class * implements com.flyjingfish.light_aop_annotation.MatchClassMethod{
+    public <init>();
+}
+-keepclassmembers class * implements com.flyjingfish.light_aop_annotation.MatchClassMethod{
+    <methods>;
+}
+# LightAop必备混淆规则 -----end-----
+
+
+# 你自定义的混淆规则 -----start-----
+-keep @com.flyjingfish.test_lib.annotations.* class * {*;}
+-keep class * {
+    @com.flyjingfish.test_lib.annotations.* <fields>;
+}
+-keepclassmembers class * {
+    @com.flyjingfish.test_lib.annotations.* <methods>;
+}
+# 你自定义的混淆规则 -----end-----
 ```
 
 如果你自己写了新的切面代码，记得加上你的混淆规则
+
+如果你用到了 **@LightAopPointCut** 做切面，那你需要对你自己写的注解类做如下处理
+
+下边的 **com.flyjingfish.test_lib.annotations** 就是你自定义的注解存放包名，你可以将你的注解类统一放到一个包下
+
+```
+# 你自定义的混淆规则 -----start-----
+-keep @com.flyjingfish.test_lib.annotations.* class * {*;}
+-keep class * {
+@com.flyjingfish.test_lib.annotations.* <fields>;
+}
+-keepclassmembers class * {
+@com.flyjingfish.test_lib.annotations.* <methods>;
+}
+# 你自定义的混淆规则 -----end-----
+```
+
+

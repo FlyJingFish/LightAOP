@@ -2,6 +2,7 @@ package com.flyjingfish.lightaop;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +45,7 @@ public class MyApp extends Application {
             public Object invoke(@NonNull ProceedingJoinPoint joinPoint, @NonNull CustomIntercept customIntercept) {
                 // TODO: 2023/11/11 在此写你的逻辑 在合适的地方调用 joinPoint.proceed()，
                 //  joinPoint.proceed(args)可以修改方法传入的参数，如果需要改写返回值，则在 return 处返回即可
-
+                Log.e("CustomIntercept","invoke"+(customIntercept == null));
                 return null;
             }
         });
@@ -54,6 +55,7 @@ public class MyApp extends Application {
             @Override
             public Object handleThrowable(@NonNull String flag, @Nullable Throwable throwable) {
                 // TODO: 2023/11/11 发生异常可根据你当时传入的flag作出相应处理，如果需要改写返回值，则在 return 处返回即可
+                Log.e("ThrowableListener","handleThrowable");
                 return 3;
             }
         });

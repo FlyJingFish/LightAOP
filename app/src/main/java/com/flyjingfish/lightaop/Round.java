@@ -2,9 +2,8 @@ package com.flyjingfish.lightaop;
 
 import android.util.Log;
 
-import com.flyjingfish.light_aop_core.annotations.CustomIntercept;
 import com.flyjingfish.light_aop_core.annotations.MainThread;
-import com.flyjingfish.test_lib.MyAnno;
+import com.flyjingfish.test_lib.annotations.MyAnno;
 
 
 public class Round {
