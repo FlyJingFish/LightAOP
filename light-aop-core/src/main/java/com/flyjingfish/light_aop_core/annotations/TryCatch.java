@@ -24,6 +24,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 加入此注解可为您的方法包裹一层 try catch 代码
+ */
 @LightAopPointCut(TryCatchCut.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

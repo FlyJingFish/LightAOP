@@ -10,6 +10,9 @@ class CustomInterceptCut : BasePointCut<CustomIntercept> {
         joinPoint: ProceedingJoinPoint,
         annotation: CustomIntercept
     ): Any? {
+        if (LightAop.getOnCustomInterceptListener() == null){
+            return joinPoint.proceed()
+        }
         return LightAop.getOnCustomInterceptListener()?.invoke(joinPoint, annotation)
     }
 }

@@ -23,7 +23,9 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
+/**
+ * 单击注解，加入此注解，可是你的方法只有单击时才可进入
+ */
 @LightAopPointCut(SingleClickCut.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

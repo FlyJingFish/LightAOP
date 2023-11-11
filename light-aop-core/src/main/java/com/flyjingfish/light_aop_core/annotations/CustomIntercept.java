@@ -8,8 +8,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 自定义拦截，此注解可以加到方法和构造器上
+ */
 @LightAopPointCut(CustomInterceptCut.class)
-@Target({ElementType.TYPE,ElementType.METHOD,ElementType.CONSTRUCTOR})
+@Target({ElementType.METHOD,ElementType.CONSTRUCTOR})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CustomIntercept {
     String[] value() default {};

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.flyjingfish.light_aop_core.annotations.CustomIntercept;
 import com.flyjingfish.test_lib.BaseActivity;
 
 public class SecondActivity extends BaseActivity {
