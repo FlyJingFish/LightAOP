@@ -126,7 +126,7 @@ public class LightAopProcessor extends AbstractProcessor {
 
 //                System.out.println("===packageName==="+packageName);
 //                System.out.println("===simpleName==="+simpleName);
-                MethodSpec.Builder whatsMyName6 = whatsMyName("logAndExecute")
+                MethodSpec.Builder whatsMyName6 = whatsMyName("cutExecute")
                         .addParameter(ProceedingJoinPoint.class,"joinPoint",Modifier.FINAL)
                         .addParameter(ClassName.get(packageName,simpleName),valueName,Modifier.FINAL)
                         .addAnnotation(AnnotationSpec.builder(Around.class)
@@ -187,7 +187,6 @@ public class LightAopProcessor extends AbstractProcessor {
                                 .addMember("value", "$S", "execution(void "+targetClassName+"+."+methodName+"(..))")
                                 .build());
 
-
                 String elementName = element.toString();
                 String packageName = elementName.substring(0,elementName.lastIndexOf("."));
                 String simpleName = elementName.substring(elementName.lastIndexOf(".")+1);
@@ -195,7 +194,7 @@ public class LightAopProcessor extends AbstractProcessor {
 
 //                System.out.println("===packageName==="+packageName);
 //                System.out.println("===simpleName==="+simpleName);
-                MethodSpec.Builder whatsMyName2 = whatsMyName("logAndExecute")
+                MethodSpec.Builder whatsMyName2 = whatsMyName("cutExecute")
                         .addParameter(ProceedingJoinPoint.class,"joinPoint",Modifier.FINAL)
                         .addAnnotation(AnnotationSpec.builder(Around.class)
                                 .addMember("value", "$S","(targetMethod())")

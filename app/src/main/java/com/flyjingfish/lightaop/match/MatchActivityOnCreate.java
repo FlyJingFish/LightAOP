@@ -16,7 +16,7 @@ public class MatchActivityOnCreate implements MatchClassMethod {
     @Nullable
     @Override
     public Object invoke(@NonNull ProceedingJoinPoint joinPoint) {
-        Log.e("MainThreadAop","invoke");
+        Log.e("MatchActivityOnCreate","invoke");
         try {
             return joinPoint.proceed();
         } catch (Throwable e) {
