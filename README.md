@@ -143,6 +143,8 @@ LightAop.INSTANCE.setOnCustomInterceptListener(new OnCustomInterceptListener() {
 
 在此的return 返回的就是对应拦截的那个方法返回的
 
+不调用 proceed 就不会执行拦截切面方法内的代码，return什么也无所谓了
+
 
 ### 此外本库也同样支持让你自己做切面，语法相对来说也比较简单，你不用关心该如何编写AspectJ的切面
 
