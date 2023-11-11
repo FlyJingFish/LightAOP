@@ -133,6 +133,7 @@ LightAop.INSTANCE.setOnCustomInterceptListener(new OnCustomInterceptListener() {
 });
 ```
 
+👆上边三个监听，最好放到你的 application 中
 
 
 在这介绍下 在使用 ProceedingJoinPoint 这个对象的 proceed() 或 proceed(args) 表示执行原来方法的逻辑，区别是：
