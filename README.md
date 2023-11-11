@@ -202,6 +202,7 @@ public class MatchActivityOnCreate implements MatchClassMethod {
 
 #### 混淆规则
 
+下边是涉及到本库的一些混淆规则
 
 ```
 -keep @com.flyjingfish.light_aop_annotation.* class * {*;}
@@ -225,3 +226,5 @@ public class MatchActivityOnCreate implements MatchClassMethod {
     <methods>;
 }
 ```
+
+如果你自己写了新的切面代码，记得加上你的混淆规则
