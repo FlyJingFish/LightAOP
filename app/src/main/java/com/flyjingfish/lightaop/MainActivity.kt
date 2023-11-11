@@ -8,6 +8,7 @@ import android.widget.Button
 import com.flyjingfish.test_lib.BaseActivity
 import com.flyjingfish.light_aop_core.annotations.IOThread
 import com.flyjingfish.light_aop_core.annotations.MainThread
+import com.flyjingfish.light_aop_core.annotations.TryCatch
 import com.flyjingfish.light_aop_core.enums.ThreadType
 import com.flyjingfish.test_lib.MyAnno
 
@@ -31,9 +32,11 @@ class MainActivity: BaseActivity() {
         }
 
         findViewById<Button>(R.id.haha2).setOnClickListener {
-            round?.getRunnable()
+//            round?.getRunnable()
 
-            onDoubleClick()
+            val number = onDoubleClick()
+
+            Log.e("number", "====$number")
         }
 
     }
@@ -70,9 +73,12 @@ class MainActivity: BaseActivity() {
     }
 
 //    @DoubleClick
-
-    fun onDoubleClick(){
-        Log.e("Test_click","onDoubleClick")
+var o :Round?=null
+    @TryCatch
+    fun onDoubleClick():Int{
+        var number = 1;
+        number = o!!.number
+        return number
     }
 
 }

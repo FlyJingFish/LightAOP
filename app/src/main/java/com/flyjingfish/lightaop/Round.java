@@ -28,4 +28,8 @@ public class Round {
         Log.e("Round","setRunnable");
         Log.e("Round","setRunnable");
     }
+
+    public int getNumber() {
+        return 1;
+    }
 }

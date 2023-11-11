@@ -8,6 +8,12 @@
 [![GitHub issues](https://img.shields.io/github/issues/FlyJingFish/LightAop.svg)](https://github.com/FlyJingFish/LightAop/issues)
 [![GitHub license](https://img.shields.io/github/license/FlyJingFish/LightAop.svg)](https://github.com/FlyJingFish/LightAop/blob/master/LICENSE)
 
+## 特色功能
+
+1、本库内置了开发中常用的一些切面注解供你使用
+
+2、本库支持让你自己做切面，语法简单易上手
+
 ## 使用步骤
 
 #### 一、在项目根目录下的build.gradle添加（必须）
@@ -74,12 +80,125 @@ dependencies {
 
 ### 下面着重介绍下 @TryCatch @Permission @CustomIntercept
 
-- @TryCatch 使用自注解你可以设置
+- @TryCatch 使用此注解你可以设置
+```java
+LightAop.INSTANCE.setOnThrowableListener(new OnThrowableListener() {
+    @Nullable
+    @Override
+    public Object handleThrowable(@NonNull String flag, @Nullable Throwable throwable) {
+        // TODO: 2023/11/11 发生异常可根据你当时传入的flag作出相应处理，如果需要改写返回值，则在 return 处返回即可
+        return 3;
+    }
+});
+```
+
+- @Permission 使用此注解你可以设置
+```java
+LightAop.INSTANCE.setOnPermissionsInterceptListener(new OnPermissionsInterceptListener() {
+    @SuppressLint("CheckResult")
+    @Override
+    public void requestPermission(@NonNull ProceedingJoinPoint joinPoint, @NonNull Permission permission, @NonNull OnRequestPermissionListener call) {
+        Object target =  joinPoint.getTarget();
+        if (target instanceof FragmentActivity){
+            RxPermissions rxPermissions = new RxPermissions((FragmentActivity) target);
+            rxPermissions.request(permission.value()).subscribe(call::onCall);
+        }else if (target instanceof Fragment){
+            RxPermissions rxPermissions = new RxPermissions((Fragment) target);
+            rxPermissions.request(permission.value()).subscribe(call::onCall);
+        }
+    }
+});
+```
+
+- @CustomIntercept 使用此注解你可以设置
+```java
+LightAop.INSTANCE.setOnCustomInterceptListener(new OnCustomInterceptListener() {
+    @Nullable
+    @Override
+    public Object invoke(@NonNull ProceedingJoinPoint joinPoint, @NonNull CustomIntercept customIntercept) {
+        // TODO: 2023/11/11 在此写你的逻辑 在合适的地方调用 joinPoint.proceed()，
+        //  joinPoint.proceed(args)可以修改方法传入的参数，如果需要改写返回值，则在 return 处返回即可
+
+        return null;
+    }
+});
+```
+
+
+
+在这介绍下 在使用 ProceedingJoinPoint 这个对象的 proceed() 或 proceed(args) 表示执行原来方法的逻辑，区别是：
+
+- proceed() 不传参，表示不改变当初的传入参数，
+- proceed(args) 有参数，表示改写当时传入的参数
+
+在此的return 返回的就是对应拦截的那个方法返回的
+
+
+### 此外本库也同样支持让你自己做切面，语法相对来说也比较简单，你不用关心该如何编写AspectJ的切面
+
+本库中提供了 @LightAopPointCut 和 @LightAopMatchClassMethod 两种切面供你使用
+
+⚠️使用这两个注解只可以用 Java 代码
+
+- @LightAopPointCut 是在方法上和构造器上做切面的，上述中注解都是通过这个做的
+
+下面以 @CustomIntercept 为例介绍下该如何使用
+
+```java
+@LightAopPointCut(CustomInterceptCut.class)
+@Target({ElementType.METHOD,ElementType.CONSTRUCTOR})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface CustomIntercept {
+    String[] value() default {};
+}
+```
+@LightAopPointCut 的 CustomInterceptCut.class 为您处理切面的类
+@Target 的 ElementType.METHOD 表示作用在方法上
+@Target 的 ElementType.CONSTRUCTOR 表示作用在构造器上
+@Retention 只可以用 RetentionPolicy.RUNTIME
+@Target 只可以传 ElementType.METHOD 和 ElementType.CONSTRUCTOR,传其他无作用
+
+CustomInterceptCut 的代码(可以用kotlin) 如下：
+
+```kotlin
+class CustomInterceptCut : BasePointCut<CustomIntercept> {
+    override fun invoke(
+        joinPoint: ProceedingJoinPoint,
+        annotation: CustomIntercept
+    ): Any? {
+        // 在此写你的逻辑
+        return joinPoint.proceed()
+    }
+}
+```
+
+- @LightAopMatchClassMethod 是做匹配类和类方法的切面的
+
+```java
+@LightAopMatchClassMethod(targetClassName = "com.flyjingfish.test_lib.BaseActivity", methodName = "onCreate")
+public class MatchActivityOnCreate implements MatchClassMethod {
+    @Nullable
+    @Override
+    public Object invoke(@NonNull ProceedingJoinPoint joinPoint) {
+        Log.e("MatchActivityOnCreate","invoke");
+        try {
+            return joinPoint.proceed();
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+}
+```
+
+上边表示凡是继承自 com.flyjingfish.test_lib.BaseActivity 的类执行 onCreate 方法时则进行切面
+
+例如你想做退出登陆逻辑时可以使用这个，注意实现MatchClassMethod接口的类只可以用 Java 代码
 
 混淆规则
 
 ```
 -keep @com.flyjingfish.light_aop_core.annotations.* class * {*;}
+-keep @com.flyjingfish.light_aop_core.cut.* class * {*;}
 -keep @com.flyjingfish.light_aop_annotation.* class * {*;}
 -keep @org.aspectj.lang.annotation.* class * {*;}
 -keep class * {
