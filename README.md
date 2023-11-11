@@ -2,7 +2,7 @@
 
 轻量级Aop框架，你值得拥有，心动不如行动，赶紧用起来吧
 
-[![Maven central](https://img.shields.io/maven-central/v/io.github.FlyJingFish.LightAop/LightAopLib)](https://central.sonatype.com/search?q=io.github.FlyJingFish.LightAop)
+[![Maven central](https://img.shields.io/maven-central/v/io.github.FlyJingFish.LightAop/LightAop)](https://central.sonatype.com/search?q=io.github.FlyJingFish.LightAop)
 [![GitHub stars](https://img.shields.io/github/stars/FlyJingFish/LightAop.svg)](https://github.com/FlyJingFish/LightAop/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/FlyJingFish/LightAop.svg)](https://github.com/FlyJingFish/LightAop/network/members)
 [![GitHub issues](https://img.shields.io/github/issues/FlyJingFish/LightAop.svg)](https://github.com/FlyJingFish/LightAop/issues)
