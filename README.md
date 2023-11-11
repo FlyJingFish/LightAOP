@@ -247,18 +247,8 @@ public class MatchActivityOnCreate implements MatchClassMethod {
 -keepclassmembers class * implements com.flyjingfish.light_aop_annotation.MatchClassMethod{
     <methods>;
 }
+
 # LightAop必备混淆规则 -----end-----
-
-
-# 你自定义的混淆规则 -----start-----
--keep @com.flyjingfish.test_lib.annotations.* class * {*;}
--keep class * {
-    @com.flyjingfish.test_lib.annotations.* <fields>;
-}
--keepclassmembers class * {
-    @com.flyjingfish.test_lib.annotations.* <methods>;
-}
-# 你自定义的混淆规则 -----end-----
 ```
 
 如果你自己写了新的切面代码，记得加上你的混淆规则
@@ -271,10 +261,10 @@ public class MatchActivityOnCreate implements MatchClassMethod {
 # 你自定义的混淆规则 -----start-----
 -keep @com.flyjingfish.test_lib.annotations.* class * {*;}
 -keep class * {
-@com.flyjingfish.test_lib.annotations.* <fields>;
+    @com.flyjingfish.test_lib.annotations.* <fields>;
 }
 -keepclassmembers class * {
-@com.flyjingfish.test_lib.annotations.* <methods>;
+    @com.flyjingfish.test_lib.annotations.* <methods>;
 }
 # 你自定义的混淆规则 -----end-----
 ```
