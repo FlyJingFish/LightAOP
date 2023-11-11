@@ -66,15 +66,6 @@ android {
         }
     }
 
-    flavorDimensions "env"
-    productFlavors {
-        dev {
-            dimension "env"
-        }
-        prod {
-            dimension "env"
-        }
-    }
 }
 
 dependencies {
