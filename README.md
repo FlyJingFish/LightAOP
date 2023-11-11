@@ -33,6 +33,7 @@ buildscript {
 #### ⚠️注意：👆此步为必须项👇
 
 ```gradle
+//必须项 👇
 plugins {
     id 'light.aop'
 }
@@ -43,26 +44,32 @@ plugins {
 - A、在app 的 module 下使用
 
 ```gradle
+//必须项 👇
 plugins {
     id 'light.aop'
 }
 dependencies {
-    implementation 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.0'
-    annotationProcessor 'io.github.FlyJingFish.LightAop:light-aop-processor:1.0.0'
+    //必须项 👇
     implementation 'io.github.FlyJingFish.LightAop:light-aop-core:1.0.0'
+    implementation 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.0'
+    //非必须项 👇，如果你想自定义切面需要用到 ⚠️如果是kotlin项目 也要用 annotationProcessor
+    annotationProcessor 'io.github.FlyJingFish.LightAop:light-aop-processor:1.0.0'
 }
 ```
 
 - B、在您定义的基础库 的 module 下使用
 
 ```gradle
+//必须项 👇
 plugins {
     id 'light.aop'
 }
 dependencies {
-    api 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.0'
-    annotationProcessor 'io.github.FlyJingFish.LightAop:light-aop-processor:1.0.0'
+    //必须项 👇
     api 'io.github.FlyJingFish.LightAop:light-aop-core:1.0.0'
+    api 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.0'
+    //非必须项 👇，如果你想自定义切面需要用到⚠️如果是kotlin项目 也要用 annotationProcessor
+    annotationProcessor 'io.github.FlyJingFish.LightAop:light-aop-processor:1.0.0'
 }
 ```
 
