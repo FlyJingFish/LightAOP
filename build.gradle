@@ -77,7 +77,10 @@ task bumpVersion() {
 
         File configFile = new File("README.md")
         String exportText = configFile.text
-        String text = exportText.replaceAll("Lib:"+oldVersionName,"Lib:"+newVersionName)
+        String text = exportText.replaceAll("io.github.FlyJingFish.LightAop:light-aop-plugin:"+oldVersionName,"io.github.FlyJingFish.LightAop:light-aop-plugin:"+newVersionName)
+        text = text.replaceAll("io.github.FlyJingFish.LightAop:light-aop-core:"+oldVersionName,"io.github.FlyJingFish.LightAop:light-aop-core:"+newVersionName)
+        text = text.replaceAll("io.github.FlyJingFish.LightAop:light-aop-annotation:"+oldVersionName,"io.github.FlyJingFish.LightAop:light-aop-annotation:"+newVersionName)
+        text = text.replaceAll("io.github.FlyJingFish.LightAop:light-aop-processor:"+oldVersionName,"io.github.FlyJingFish.LightAop:light-aop-processor:"+newVersionName)
 
         configFile.write(text)
         println("升级版本号完成，versionName = "+newVersionName)

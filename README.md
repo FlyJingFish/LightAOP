@@ -23,7 +23,7 @@
 ```gradle
 buildscript {
     dependencies {
-        classpath 'io.github.FlyJingFish.LightAop:light-aop-plugin:1.0.0'
+        classpath 'io.github.FlyJingFish.LightAop:light-aop-plugin:1.0.1'
     }
 }
 ```
@@ -50,10 +50,10 @@ plugins {
 }
 dependencies {
     //必须项 👇
-    implementation 'io.github.FlyJingFish.LightAop:light-aop-core:1.0.0'
-    implementation 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.0'
+    implementation 'io.github.FlyJingFish.LightAop:light-aop-core:1.0.1'
+    implementation 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.1'
     //非必须项 👇，如果你想自定义切面需要用到 ⚠️如果是kotlin项目 也要用 annotationProcessor
-    annotationProcessor 'io.github.FlyJingFish.LightAop:light-aop-processor:1.0.0'
+    annotationProcessor 'io.github.FlyJingFish.LightAop:light-aop-processor:1.0.1'
 }
 ```
 
@@ -66,10 +66,10 @@ plugins {
 }
 dependencies {
     //必须项 👇
-    api 'io.github.FlyJingFish.LightAop:light-aop-core:1.0.0'
-    api 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.0'
+    api 'io.github.FlyJingFish.LightAop:light-aop-core:1.0.1'
+    api 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.1'
     //非必须项 👇，如果你想自定义切面需要用到⚠️如果是kotlin项目 也要用 annotationProcessor
-    annotationProcessor 'io.github.FlyJingFish.LightAop:light-aop-processor:1.0.0'
+    annotationProcessor 'io.github.FlyJingFish.LightAop:light-aop-processor:1.0.1'
 }
 ```
 
