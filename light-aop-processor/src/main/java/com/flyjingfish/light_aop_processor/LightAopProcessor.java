@@ -146,7 +146,7 @@ public class LightAopProcessor extends AbstractProcessor {
 
                 TypeSpec typeSpec = typeBuilder.build();
 
-                JavaFile javaFile = JavaFile.builder("com.flyjingfish.light_aop_core.cut", typeSpec)
+                JavaFile javaFile = JavaFile.builder("com.flyjingfish.light_aop_core.acpectj", typeSpec)
                         .build();
                 try {
                     javaFile.writeTo(mFiler);
@@ -209,7 +209,7 @@ public class LightAopProcessor extends AbstractProcessor {
 
                 TypeSpec typeSpec = typeBuilder.build();
 
-                JavaFile javaFile = JavaFile.builder("com.flyjingfish.light_aop_core.match", typeSpec)
+                JavaFile javaFile = JavaFile.builder("com.flyjingfish.light_aop_core.acpectj", typeSpec)
                         .build();
                 try {
                     javaFile.writeTo(mFiler);

@@ -2,8 +2,9 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
         gradlePluginPortal()
-        maven { url './repo' }
+//        maven { url "https://s01.oss.sonatype.org/content/repositories/iogithubflyjingfish-1274" }
     }
 }
 dependencyResolutionManagement {
@@ -11,6 +12,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+//        maven { url "https://s01.oss.sonatype.org/content/repositories/iogithubflyjingfish-1274" }
     }
 }
 rootProject.name = "LightAOP"

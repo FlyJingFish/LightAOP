@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.flyjingfish.lightaop"
-        minSdk 21
+        minSdk rootProject.ext.minSdkVersion
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -41,7 +41,12 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    //本地
     implementation project(path: ":light-aop-annotation")
     annotationProcessor project(path: ":light-aop-processor")
     implementation project(path: ":light-aop-core")
+    //线上
+//    implementation 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.0'
+//    annotationProcessor 'io.github.FlyJingFish.LightAop:light-aop-processor:1.0.0'
+//    implementation 'io.github.FlyJingFish.LightAop:light-aop-core:1.0.0'
 }

@@ -1,0 +1,52 @@
+// Configures common publishing settings.
+
+apply plugin: "maven-publish"
+apply plugin: "signing"
+group = rootProject.group
+version = rootProject.version
+//def appVersionName = getAppVersionName()
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set("sources")
+}
+afterEvaluate {
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = PROJ_NAME
+                afterEvaluate {
+                    from components.release
+                }
+                artifact sourcesJar
+                pom {
+                    packaging = "aar"
+                    name = PROJ_BASENAME
+                    description = PROJ_DESCRIPTION
+                    url = PROJ_WEBSITEURL
+                    licenses {
+                        license {
+                            name =  'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = DEVELOPER_ID
+                            name = DEVELOPER_NAME
+                            email = DEVELOPER_EMAIL
+                        }
+                    }
+
+                    scm {
+                        connection = PROJ_VCSURL
+                        developerConnection = PROJ_VCSURL
+                        url = PROJ_WEBSITEURL
+                    }
+                }
+            }
+        }
+    }
+    signing {
+        sign publishing.publications.mavenJava
+    }
+}

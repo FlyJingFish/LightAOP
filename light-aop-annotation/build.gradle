@@ -2,11 +2,13 @@ plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm'
 }
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+javadoc {
+    title = "LightAop Annotation ${version} API"
+    options.bottom = 'LightAop'
 }
+apply from: "$rootDir/gradle/java_base.gradle"
+
+apply from: "$rootDir/gradle/java_publish.gradle"
 
 dependencies {
     implementation 'org.aspectj:aspectjrt:1.9.8'

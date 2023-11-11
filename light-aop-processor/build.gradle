@@ -2,11 +2,12 @@ plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm'
 }
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+apply from: "$rootDir/gradle/java_base.gradle"
+javadoc {
+    title = "LightAop Processor ${version} API"
+    options.bottom = 'LightAop'
 }
+apply from: "$rootDir/gradle/java_publish.gradle"
 
 dependencies {
     implementation 'com.squareup:javapoet:1.13.0'
