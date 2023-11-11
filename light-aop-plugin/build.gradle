@@ -3,11 +3,11 @@ plugins {
     id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm'
 }
-apply from: "$rootDir/gradle/java_base.gradle"
 javadoc {
     title = "LightAop Plugin ${version} API"
     options.bottom = 'LightAop'
 }
+apply from: "$rootDir/gradle/java_base.gradle"
 apply from: "$rootDir/gradle/java_publish.gradle"
 
 dependencies {

@@ -2,18 +2,15 @@ plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm'
 }
-apply from: "$rootDir/gradle/java_base.gradle"
 javadoc {
     title = "LightAop Processor ${version} API"
     options.bottom = 'LightAop'
 }
+apply from: "$rootDir/gradle/java_base.gradle"
 apply from: "$rootDir/gradle/java_publish.gradle"
 
 dependencies {
     implementation 'com.squareup:javapoet:1.13.0'
     implementation project(path: ":light-aop-annotation")
     implementation 'org.aspectj:aspectjrt:1.9.8'
-//    annotationProcessor 'com.google.auto.service:auto-service:1.0.1'
-//    compileOnly 'com.google.auto.service:auto-service-annotations:1.0.1'
-
 }

@@ -7,7 +7,6 @@ javadoc {
     options.bottom = 'LightAop'
 }
 apply from: "$rootDir/gradle/java_base.gradle"
-
 apply from: "$rootDir/gradle/java_publish.gradle"
 
 dependencies {

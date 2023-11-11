@@ -4,7 +4,6 @@ plugins {
     id 'light.aop'
 }
 apply from: "$rootDir/gradle/android_base.gradle"
-
 apply from: "$rootDir/gradle/android_publish.gradle"
 android {
     namespace 'com.flyjingfish.light_aop_core'
