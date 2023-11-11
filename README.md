@@ -175,12 +175,12 @@ class CustomInterceptCut : BasePointCut<CustomIntercept> {
 - @LightAopMatchClassMethod 是做匹配类和类方法的切面的
 
 ```java
-@LightAopMatchClassMethod(targetClassName = "com.flyjingfish.test_lib.BaseActivity", methodName = "onCreate")
+@LightAopMatchClassMethod(targetClassName = "com.flyjingfish.test_lib.BaseActivity", methodName = {"onCreate","onResume"})
 public class MatchActivityOnCreate implements MatchClassMethod {
     @Nullable
     @Override
-    public Object invoke(@NonNull ProceedingJoinPoint joinPoint) {
-        Log.e("MatchActivityOnCreate","invoke");
+    public Object invoke(@NonNull ProceedingJoinPoint joinPoint, @NonNull String methodName) {
+        Log.e("MatchActivityOnCreate","invoke="+methodName);
         try {
             return joinPoint.proceed();
         } catch (Throwable e) {
@@ -190,7 +190,9 @@ public class MatchActivityOnCreate implements MatchClassMethod {
 }
 ```
 
-上边表示凡是继承自 com.flyjingfish.test_lib.BaseActivity 的类执行 onCreate 方法时则进行切面
+上边表示凡是继承自 com.flyjingfish.test_lib.BaseActivity 的类执行 onCreate 和 onResume 方法时则进行切面
+
+⚠️注意如果你没写对应的方法或者没有重写父类的该方法则切面无效
 
 例如你想做退出登陆逻辑时可以使用这个，注意实现MatchClassMethod接口的类只可以用 Java 代码
 
