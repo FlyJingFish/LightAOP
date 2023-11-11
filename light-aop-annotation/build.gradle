@@ -8,7 +8,5 @@ javadoc {
 }
 apply from: "$rootDir/gradle/java_base.gradle"
 apply from: "$rootDir/gradle/java_publish.gradle"
+apply from: "$rootDir/gradle/java_base_lib.gradle"
 
-dependencies {
-    implementation 'org.aspectj:aspectjrt:1.9.8'
-}
