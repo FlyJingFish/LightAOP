@@ -147,7 +147,7 @@ LightAop.INSTANCE.setOnCustomInterceptListener(new OnCustomInterceptListener() {
 
 本库中提供了 @LightAopPointCut 和 @LightAopMatchClassMethod 两种切面供你使用
 
-## ⚠️⚠️⚠️如果你是Java项目这种方式代码放哪里都没事，如果你是kotlin项目，这些代码需要放到非 app 的 module 下才可以正常在 Kotlin 代码中使用，否则切面只能对 Java 起作用，（当然上边提到的内置好了的功能不没有这个限制的）
+## ⚠️⚠️⚠️如果你是Java项目这种方式代码放哪里都没事，如果你是kotlin项目，这些代码需要放到非 app 的 module 下才可以正常在 Kotlin 代码中使用，否则切面只能对 Java 起作用，（当然上边提到的内置好了的功能没有这个限制的）
 
 
 ⚠️被两个注解的类只可以用 Java 代码
