@@ -75,6 +75,12 @@ dependencies {
 
 **⚠️基础库其上层的Module也要引入**
 
+```gradle
+//必须项 👇
+plugins {
+    id 'light.aop'
+}
+```
 ### 本库内置了一些功能注解可供你直接使用
 
 | 注解名称             |            参数说明            |                 功能说明                  |
