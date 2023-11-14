@@ -1,6 +1,6 @@
 # LightAOP
 
-轻量级Aop框架，你值得拥有，心动不如行动，赶紧用起来吧
+将 AspectJ 轻量化、容易化使用的 Android 端 Aop 框架，不再学习如何使用 AspectJ 的语法，也可以定制出属于你的 Aop 代码，心动不如行动，赶紧用起来吧
 
 [![Maven central](https://img.shields.io/maven-central/v/io.github.FlyJingFish.LightAop/light-aop-core)](https://central.sonatype.com/search?q=io.github.FlyJingFish.LightAop)
 [![GitHub stars](https://img.shields.io/github/stars/FlyJingFish/LightAop.svg)](https://github.com/FlyJingFish/LightAop/stargazers)
