@@ -10,6 +10,7 @@ apply from: "$rootDir/gradle/java_base.gradle"
 apply from: "$rootDir/gradle/java_publish.gradle"
 apply from: "$rootDir/gradle/java_base_lib.gradle"
 dependencies {
-    implementation 'com.squareup:javapoet:1.13.0'
+//    implementation 'com.squareup:javapoet:1.13.0'
+    implementation 'com.squareup:kotlinpoet:1.14.2'
     implementation project(path: ":light-aop-annotation")
 }

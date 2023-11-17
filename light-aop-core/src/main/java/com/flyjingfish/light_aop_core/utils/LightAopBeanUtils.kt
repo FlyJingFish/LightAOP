@@ -11,7 +11,7 @@ object LightAopBeanUtils {
     var basePointCutMap = ConcurrentHashMap<String, BasePointCut<*>?>()
     var matchClassMethodMap = ConcurrentHashMap<String, MatchClassMethod?>()
 
-    fun getBasePointCut(joinPoint: ProceedingJoinPoint, clsName: String): BasePointCut<*> {
+    fun getBasePointCut(joinPoint: ProceedingJoinPoint, clsName: String): BasePointCut<out Annotation> {
         val className = joinPoint.getThis().javaClass.name
         val methodName = joinPoint.signature.name
         val key = "$className.$methodName"
@@ -28,9 +28,9 @@ object LightAopBeanUtils {
         return basePointCut
     }
 
-    private fun getNewPointCut(clsName: String): BasePointCut<*> {
-        val cls: Class<out BasePointCut<*>> = try {
-            Class.forName(clsName) as Class<out BasePointCut<*>>
+    private fun getNewPointCut(clsName: String): BasePointCut<out Annotation> {
+        val cls: Class<out BasePointCut<out Annotation>> = try {
+            Class.forName(clsName) as Class<out BasePointCut<out Annotation>>
         } catch (e: ClassNotFoundException) {
             throw RuntimeException(e)
         }

@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
-        mavenLocal()
         gradlePluginPortal()
 //        maven { url "https://s01.oss.sonatype.org/content/repositories/iogithubflyjingfish-1282" }
     }
