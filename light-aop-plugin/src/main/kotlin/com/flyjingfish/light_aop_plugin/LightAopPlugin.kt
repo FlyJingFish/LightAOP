@@ -29,7 +29,7 @@ class LightAopPlugin : Plugin<Project> {
         }
         val log = project.logger
 
-        val dependencyGav = "org.aspectj:aspectjrt:1.9.8"
+        val dependencyGav = "org.aspectj:aspectjrt:1.9.9.1"
 
         if (GradleVersion.current() > GradleVersion.version("4.0")) {
             project.dependencies.add("implementation", dependencyGav)

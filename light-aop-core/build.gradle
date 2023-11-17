@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'light.aop'
+    id 'kotlin-kapt'
 }
 apply from: "$rootDir/gradle/android_base.gradle"
 apply from: "$rootDir/gradle/android_publish.gradle"
@@ -11,5 +12,6 @@ android {
 
 dependencies {
     implementation project(path: ":light-aop-annotation")
-    annotationProcessor project(path: ":light-aop-processor")
+    api 'org.aspectj:aspectjrt:1.9.9.1'
+    kapt project(path: ":light-aop-processor")
 }

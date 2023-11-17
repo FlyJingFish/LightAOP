@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'light.aop'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -34,7 +35,7 @@ dependencies {
 
     //本地
     api project(path: ":light-aop-annotation")
-    annotationProcessor project(path: ":light-aop-processor")
+    kapt project(path: ":light-aop-processor")
     api project(path: ":light-aop-core")
     //线上
 //    api 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.1'

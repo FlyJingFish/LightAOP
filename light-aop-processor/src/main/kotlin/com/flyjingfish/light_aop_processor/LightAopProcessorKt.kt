@@ -14,6 +14,7 @@ import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
+import java.io.File
 import java.io.IOException
 import java.lang.annotation.Target
 import javax.annotation.processing.AbstractProcessor
@@ -27,7 +28,9 @@ import javax.lang.model.type.MirroredTypeException
 
 class LightAopProcessorKt: AbstractProcessor() {
     var mFiler: Filer? = null
-
+    companion object {
+        const val KAPT_KOTLIN_GENERATED_OPTION_NAME = "kapt.kotlin.generated"
+    }
     override fun getSupportedAnnotationTypes(): Set<String> {
         val set: MutableSet<String> = LinkedHashSet()
         set.add(LightAopPointCut::class.java.canonicalName)
@@ -170,10 +173,11 @@ class LightAopProcessorKt: AbstractProcessor() {
                 typeBuilder.addFunction(whatsMyName5.build())
                 typeBuilder.addFunction(whatsMyName6.build())
                 val typeSpec = typeBuilder.build()
+                val kaptKotlinGeneratedDir = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME];
                 val javaFile = FileSpec.builder("com.flyjingfish.light_aop_core.acpectj","${name1}AutoAspectJ").addType(typeSpec)
                     .build()
                 try {
-                    mFiler?.let { javaFile.writeTo(it) }
+                    javaFile.writeTo(File(kaptKotlinGeneratedDir!!))
                 } catch (e: IOException) {
 //                    throw new RuntimeException(e);
                 }
@@ -256,11 +260,13 @@ class LightAopProcessorKt: AbstractProcessor() {
                     typeBuilder.addFunction(methodSpecBuilder.build())
                 }
                 typeBuilder.addFunction(whatsMyName2.build())
+
+                val kaptKotlinGeneratedDir = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME];
                 val typeSpec = typeBuilder.build()
                 val javaFile = FileSpec.builder("com.flyjingfish.light_aop_core.acpectj","${name1}AutoAspectJ").addType(typeSpec)
                     .build()
                 try {
-                    mFiler?.let { javaFile.writeTo(it) }
+                    javaFile.writeTo(File(kaptKotlinGeneratedDir!!))
                 } catch (e: IOException) {
 //                    throw new RuntimeException(e);
                 }
