@@ -41,8 +41,8 @@ public class AnnotationMethodScanner extends ClassVisitor {
 //    }
 
     class MyMethodVisitor extends MethodVisitor {
-        String methodName;
-        MyMethodVisitor(String methodName) {
+        MethodRecord methodName;
+        MyMethodVisitor(MethodRecord methodName) {
             super(Opcodes.ASM8);
             this.methodName = methodName;
         }
@@ -59,13 +59,13 @@ public class AnnotationMethodScanner extends ClassVisitor {
     }
 
     @Override
-    public MethodVisitor visitMethod(int access, String name, String desc,
+    public MethodVisitor visitMethod(int access, String name, String descriptor,
                                      String signature, String[] exceptions) {
 //        logger.error("AnnotationMethodScanner method: name = " + name);
-        return new MyMethodVisitor(name);
+        return new MyMethodVisitor(new MethodRecord(name,descriptor));
     }
 
     public interface OnCallBackMethod{
-        void onBackName(String methodName);
+        void onBackName(MethodRecord methodRecord);
     }
 }

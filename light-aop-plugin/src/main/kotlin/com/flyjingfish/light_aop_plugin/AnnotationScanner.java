@@ -62,13 +62,13 @@ public class AnnotationScanner extends ClassVisitor {
     }
 
     @Override
-    public MethodVisitor visitMethod(int access, String name, String desc,
+    public MethodVisitor visitMethod(int access, String name, String descriptor,
                                      String signature, String[] exceptions) {
         if (isLightAopClass){
-            logger.error("method: name = " + name);
+            logger.error("method: name = " + name+",desc="+descriptor+",signature="+signature);
             return new MyMethodVisitor();
         }else {
-            return super.visitMethod(access, name, desc, signature, exceptions);
+            return super.visitMethod(access, name, descriptor, signature, exceptions);
         }
     }
 }
