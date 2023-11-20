@@ -16,4 +16,6 @@ dependencies {
     implementation 'com.android.tools.build:gradle:8.0.0'
     api "org.aspectj:aspectjtools:1.9.8"
     api 'org.aspectj:aspectjweaver:1.9.8'
+    implementation 'org.ow2.asm:asm:9.2'
+    implementation 'org.ow2.asm:asm-commons:9.2'
 }
