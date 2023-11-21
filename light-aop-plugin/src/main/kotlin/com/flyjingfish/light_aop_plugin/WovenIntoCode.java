@@ -78,6 +78,10 @@ public class WovenIntoCode {
 
         ClassPool cp = new ClassPool(null);
         cp.appendSystemPath();
+        System.out.println(WovenInfoUtils.INSTANCE.getClassPaths());
+        for (String classPath : WovenInfoUtils.INSTANCE.getClassPaths()) {
+            cp.appendClassPath(classPath);
+        }
 //        ClassPool cp = ClassPool.getDefault();
         InputStream byteArrayInputStream = new ByteArrayInputStream(cw.toByteArray());
         CtClass ctClass = cp.makeClass(byteArrayInputStream);
@@ -90,11 +94,10 @@ public class WovenIntoCode {
             String oldMethodName = value.getMethodName();
             String targetMethodName = oldMethodName+"LightAopAutoMethod";
             String oldDescriptor = value.getDescriptor();
-
+            String cutClassName = value.getCutClassName();
             try {
                 CtMethod ctMethod = getCtMethod(ctClass,oldMethodName,oldDescriptor);
                 CtMethod targetMethod = getCtMethod(ctClass,targetMethodName,oldDescriptor);
-
 
                 ClassFile ccFile = ctClass.getClassFile();
                 ConstPool constpool = ccFile.getConstPool();
@@ -140,6 +143,7 @@ public class WovenIntoCode {
                 String body = " {LightAopJoinPoint pointCut = new LightAopJoinPoint("+(isStaticMethod?"$0":"$0,"+"\""+oldMethodName+"\","+"\""+targetMethodName+"\"")+");\n" +
                         (isHasArgs? "        Object[] args = new Object[]{"+argsBuffer+"};\n" :"")+
                         (isHasArgs? "        pointCut.setArgs(args);\n" :"        pointCut.setArgs(null);\n")+
+                        (cutClassName != null? "        pointCut.setCutMatchClassName(\""+cutClassName+"\");\n" :"")+
                         "        "+returnStr+";}";
                 System.out.println(body);
                 ctMethod.setBody(body);

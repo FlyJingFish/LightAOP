@@ -44,8 +44,8 @@ class RegisterMapWovenInfoCode {
             if (opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN) {
                 val map: HashMap<String,AopMethodCut> = WovenInfoUtils.aopMethodCuts
                 if (map.isNotEmpty()) {
-                    map.forEach { (_, value) ->
-                        val name = value.anno+"="+value.cutClassName
+                    map.forEach { (key, value) ->
+                        val name = value.anno+"-"+value.cutClassName
                         mv.visitLdcInsn(name)
                         mv.visitMethodInsn(
                             INVOKESTATIC,

@@ -63,9 +63,11 @@ abstract class AssembleLightAopTask : DefaultTask() {
 
                 }
             }
+            WovenInfoUtils.addClassPath(directory.asFile.absolutePath)
         }
 //        logger.info("Scan to project [${project.project.}]")
         allJars.get().forEach { file ->
+            WovenInfoUtils.addClassPath(file.asFile.absolutePath)
             val jarFile = JarFile(file.asFile)
             val enumeration = jarFile.entries()
             while (enumeration.hasMoreElements()) {

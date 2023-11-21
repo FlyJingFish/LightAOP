@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface LightAopMatch {
     String baseClassName();
     String methodNames();
+    String pointCutClassName();
 }

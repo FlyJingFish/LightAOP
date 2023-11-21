@@ -20,11 +20,11 @@ public class ProceedJoinPoint {
         return targetLightMethod;
     }
 
-    void setTargetMethod(Method targetMethod) {
+    public void setTargetMethod(Method targetMethod) {
         this.targetMethod = targetMethod;
     }
 
-    void setOriginalMethod(Method originalMethod) {
+    public void setOriginalMethod(Method originalMethod) {
         this.originalMethod = originalMethod;
         targetLightMethod = new LightMethod();
         targetLightMethod.setOriginalMethod(originalMethod);

@@ -22,7 +22,7 @@ class MainActivity: BaseActivity() {
         var round :Round ?=null
         findViewById<Button>(R.id.haha).setOnClickListener {
             round = Round()
-            onClick()
+            onClick(round!!)
             startActivity(Intent(this,SecondActivity::class.java))
         }
 
@@ -43,6 +43,9 @@ class MainActivity: BaseActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
 //    public fun onClick(){
 //        Log.e("onClick","------")
 //        //插入逻辑
@@ -54,7 +57,7 @@ class MainActivity: BaseActivity() {
 //    }
 
     @IOThread(ThreadType.SingleIO)
-    fun onClick(){
+    fun onClick(round: Round){
         Log.e("Test_MainThread","是否主线程="+(Looper.getMainLooper() == Looper.myLooper()))
         Log.e("Test_MainThread","开始睡5秒")
         Thread.sleep(5000)

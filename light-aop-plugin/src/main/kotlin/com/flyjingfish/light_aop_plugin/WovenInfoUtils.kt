@@ -6,6 +6,7 @@ import java.util.HashMap
 object WovenInfoUtils {
     val aopMethodCuts: HashMap<String,AopMethodCut> = HashMap()
     val aopMatchCuts: HashMap<String,AopMatchCut> = HashMap()
+    val classPaths : ArrayList<String> = ArrayList()
     private val classMethodRecords: HashMap<String, HashMap<String, MethodRecord>> = HashMap()//类名为key，value为方法map集合
 
     fun addAnnoInfo(info: AopMethodCut) {
@@ -44,5 +45,9 @@ object WovenInfoUtils {
     fun getMatchInfo(classFile:String):AopMatchCut?{
         val key = Utils.slashToDot(classFile.substring(0,classFile.lastIndexOf(".")))
         return aopMatchCuts[key]
+    }
+
+    fun addClassPath(classPath:String){
+        classPaths.add(classPath)
     }
 }

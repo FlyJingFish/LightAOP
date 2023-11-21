@@ -10,6 +10,7 @@ public class AnnotationScanner extends ClassVisitor {
     Logger logger;
     static final String CLASS_POINT = "Lcom/flyjingfish/light_aop_annotation/LightAopClass";
     static final String METHOD_POINT = "Lcom/flyjingfish/light_aop_annotation/LightAopMethod";
+    static final String MATCH_POINT = "Lcom/flyjingfish/light_aop_annotation/LightAopMatch";
     boolean isLightAopClass;
     public AnnotationScanner(Logger logger) {
         super(Opcodes.ASM8);
@@ -30,6 +31,7 @@ public class AnnotationScanner extends ClassVisitor {
         String cutClassName;
         String baseClassName;
         String methodNames;
+        String pointCutClassName;
         MethodAnnoVisitor() {
             super(Opcodes.ASM8);
         }
@@ -49,6 +51,9 @@ public class AnnotationScanner extends ClassVisitor {
                 if (name.equals("methodNames")) {
                     methodNames = value.toString();
                 }
+                if (name.equals("pointCutClassName")) {
+                    pointCutClassName = value.toString();
+                }
 //                WovenInfoUtils.INSTANCE.addAnnoInfo(value.toString());
             }
             super.visit(name, value);
@@ -62,7 +67,7 @@ public class AnnotationScanner extends ClassVisitor {
                 WovenInfoUtils.INSTANCE.addAnnoInfo(cut);
             }
             if (baseClassName != null && methodNames != null){
-                AopMatchCut cut = new AopMatchCut(baseClassName,methodNames.split("-"));
+                AopMatchCut cut = new AopMatchCut(baseClassName,methodNames.split("-"),pointCutClassName);
                 WovenInfoUtils.INSTANCE.addMatchInfo(cut);
             }
         }
@@ -76,7 +81,7 @@ public class AnnotationScanner extends ClassVisitor {
         public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
             if (isLightAopClass){
                 logger.error("annotation MethodVisitor type: " + descriptor);
-                if (descriptor.contains(METHOD_POINT)){
+                if (descriptor.contains(METHOD_POINT)||descriptor.contains(MATCH_POINT)){
                     return new MethodAnnoVisitor();
                 }else {
                     return super.visitAnnotation(descriptor, visible);

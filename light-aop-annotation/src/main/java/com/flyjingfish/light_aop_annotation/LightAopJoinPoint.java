@@ -1,5 +1,11 @@
 package com.flyjingfish.light_aop_annotation;
 
+import com.flyjingfish.light_aop_annotation.BasePointCut;
+import com.flyjingfish.light_aop_annotation.JoinAnnoCutUtils;
+import com.flyjingfish.light_aop_annotation.LightAopBeanUtils;
+import com.flyjingfish.light_aop_annotation.MatchClassMethod;
+import com.flyjingfish.light_aop_annotation.ProceedJoinPoint;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -13,6 +19,12 @@ public class LightAopJoinPoint {
         proceedJoinPoint.setTargetMethod(targetMethod);
         Annotation[] annotations = originalMethod.getAnnotations();
         Object returnValue = null;
+
+        if (cutMatchClassName != null){
+            MatchClassMethod matchClassMethod = LightAopBeanUtils.INSTANCE.getMatchClassMethod(proceedJoinPoint,cutMatchClassName);
+            matchClassMethod.invoke(proceedJoinPoint,proceedJoinPoint.getTargetMethod().name);
+        }
+
         for (Annotation annotation : annotations) {
             String cutClassName = JoinAnnoCutUtils.getCutClassName(annotation.annotationType().getName());
             if (cutClassName != null){
@@ -31,11 +43,20 @@ public class LightAopJoinPoint {
     private String originalMethodName;
     private Method targetMethod;
     private Method originalMethod;
+    private String cutMatchClassName;
 
     public LightAopJoinPoint(Object target,String originalMethodName, String targetMethodName) {
         this.target = target;
         this.originalMethodName = originalMethodName;
         this.targetMethodName = targetMethodName;
+    }
+
+    public String getCutMatchClassName() {
+        return cutMatchClassName;
+    }
+
+    public void setCutMatchClassName(String cutMatchClassName) {
+        this.cutMatchClassName = cutMatchClassName;
     }
 
     public Object[] getArgs() {

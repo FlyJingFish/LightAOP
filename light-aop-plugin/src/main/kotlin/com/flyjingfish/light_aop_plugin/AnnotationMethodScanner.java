@@ -6,6 +6,9 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AnnotationMethodScanner extends ClassVisitor {
     Logger logger;
     private final OnCallBackMethod onCallBackMethod;
@@ -18,26 +21,29 @@ public class AnnotationMethodScanner extends ClassVisitor {
 
     private boolean isDescendantClass;
     private AopMatchCut aopMatchCut;
+    private List<MethodRecord> cacheMethodRecords = new ArrayList<>();
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-        System.out.println("superName="+superName);
         WovenInfoUtils.INSTANCE.getAopMatchCuts().forEach((key,aopMatchCut)->{
-            try{
-                Class superClass = Class.forName(superName.replace("/", "."));
-                do {
-                    if (aopMatchCut.getBaseClassName().equals(superClass.getName())) {
-                        this.isDescendantClass= true;
-                        AnnotationMethodScanner.this.aopMatchCut = aopMatchCut;
-                        break;
-                    }
-                    superClass = superClass.getSuperclass();
-                } while (superClass != null);
-            }catch (Exception e){
-                e.printStackTrace();
+//            try{
+//                Class superClass = Class.forName(superName.replace("/", "."));
+//                do {
+//                    if (aopMatchCut.getBaseClassName().equals(superClass.getName())) {
+//                        this.isDescendantClass= true;
+//                        AnnotationMethodScanner.this.aopMatchCut = aopMatchCut;
+//                        break;
+//                    }
+//                    superClass = superClass.getSuperclass();
+//                } while (superClass != null);
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+            if (aopMatchCut.getBaseClassName().equals(Utils.INSTANCE.slashToDot(superName))) {
+                this.isDescendantClass= true;
+                AnnotationMethodScanner.this.aopMatchCut = aopMatchCut;
             }
         });
 
-        System.out.println("superName----="+isDescendantClass);
         super.visit(version, access, name, signature, superName, interfaces);
 
     }
@@ -55,17 +61,7 @@ public class AnnotationMethodScanner extends ClassVisitor {
         }
         @Override
         public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-//            logger.error("AnnotationMethodScanner MethodVisitor type: " + descriptor);
-            if (isDescendantClass){
-                for (String name : aopMatchCut.getMethodNames()) {
-                    if (name.equals(methodName.getMethodName())){
-                        if (onCallBackMethod != null){
-                            onCallBackMethod.onBackName(methodName);
-                        }
-                        break;
-                    }
-                }
-            }
+//            logger.error("AnnotationMethodScanner MyMethodVisitor type: " + descriptor);
             if (WovenInfoUtils.INSTANCE.isContainAnno(descriptor)){
                 if (onCallBackMethod != null){
                     onCallBackMethod.onBackName(methodName);
@@ -78,8 +74,29 @@ public class AnnotationMethodScanner extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String descriptor,
                                      String signature, String[] exceptions) {
-//        logger.error("AnnotationMethodScanner method: name = " + name);
-        return new MyMethodVisitor(new MethodRecord(name,descriptor));
+        if (isDescendantClass){
+            logger.error("AnnotationMethodScanner method: name = " + name);
+            for (String methodName : aopMatchCut.getMethodNames()) {
+                if (methodName.equals(name)){
+                    cacheMethodRecords.add(new MethodRecord(name,descriptor, aopMatchCut.getCutClassName()));
+                    break;
+                }
+            }
+        }
+        return new MyMethodVisitor(new MethodRecord(name,descriptor,null));
+    }
+
+    @Override
+    public void visitEnd() {
+        super.visitEnd();
+        if (isDescendantClass){
+            logger.error("AnnotationMethodScanner visitEnd");
+            for (MethodRecord cacheMethodRecord : cacheMethodRecords) {
+                if (onCallBackMethod != null){
+                    onCallBackMethod.onBackName(cacheMethodRecord);
+                }
+            }
+        }
     }
 
     public interface OnCallBackMethod{

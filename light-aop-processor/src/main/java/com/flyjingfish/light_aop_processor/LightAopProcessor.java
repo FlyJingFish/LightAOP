@@ -121,7 +121,7 @@ public class LightAopProcessor extends AbstractProcessor {
             Name name = typeElement.getSimpleName();
             for (Element element : elements) {
                 Name name1 = element.getSimpleName();
-//                System.out.println("======"+name);
+                System.out.println("===processMatch===name="+element);
 //                System.out.println("======"+element);
                 LightAopMatchClassMethod cut = element.getAnnotation(LightAopMatchClassMethod.class);
                 Target target = element.getAnnotation(Target.class);
@@ -141,6 +141,7 @@ public class LightAopProcessor extends AbstractProcessor {
                         .addAnnotation(AnnotationSpec.builder(LightAopMatch.class)
                                 .addMember("baseClassName", "$S", className)
                                 .addMember("methodNames", "$S", stringBuilder)
+                                .addMember("pointCutClassName", "$S", element)
                                 .build());
 
                 typeBuilder.addMethod(whatsMyName1.build());
