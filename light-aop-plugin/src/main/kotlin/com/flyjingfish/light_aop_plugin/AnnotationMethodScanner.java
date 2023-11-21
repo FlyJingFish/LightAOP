@@ -6,8 +6,14 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.NotFoundException;
 
 public class AnnotationMethodScanner extends ClassVisitor {
     Logger logger;
@@ -24,25 +30,43 @@ public class AnnotationMethodScanner extends ClassVisitor {
     private List<MethodRecord> cacheMethodRecords = new ArrayList<>();
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-        WovenInfoUtils.INSTANCE.getAopMatchCuts().forEach((key,aopMatchCut)->{
-//            try{
-//                Class superClass = Class.forName(superName.replace("/", "."));
-//                do {
-//                    if (aopMatchCut.getBaseClassName().equals(superClass.getName())) {
-//                        this.isDescendantClass= true;
-//                        AnnotationMethodScanner.this.aopMatchCut = aopMatchCut;
-//                        break;
+        if (superName != null){
+
+            WovenInfoUtils.INSTANCE.getAopMatchCuts().forEach((key,aopMatchCut)->{
+//                try{
+//                    ClassPool cp = new ClassPool(null);
+//                    cp.appendSystemPath();
+//                    for (String classPath : WovenInfoUtils.INSTANCE.getClassPaths()) {
+//                        cp.appendClassPath(classPath);
 //                    }
-//                    superClass = superClass.getSuperclass();
-//                } while (superClass != null);
-//            }catch (Exception e){
-//                e.printStackTrace();
-//            }
-            if (aopMatchCut.getBaseClassName().equals(Utils.INSTANCE.slashToDot(superName))) {
-                this.isDescendantClass= true;
-                AnnotationMethodScanner.this.aopMatchCut = aopMatchCut;
-            }
-        });
+//
+//                    CtClass superClass = cp.getCtClass(Utils.INSTANCE.slashToDot(superName));
+//                    int index = 0;
+//                    do {
+//                        if (aopMatchCut.getBaseClassName().equals(superClass.getName())) {
+//                            this.isDescendantClass= true;
+//                            AnnotationMethodScanner.this.aopMatchCut = aopMatchCut;
+//
+//                            break;
+//                        }
+//                        if (index > 3){
+//                            break;
+//                        }
+//                        index++;
+//                        superClass = superClass.getSuperclass();
+//                    } while (superClass != null);
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//        ClassPool cp = ClassPool.getDefault();
+
+
+                if (aopMatchCut.getBaseClassName().equals(Utils.INSTANCE.slashToDot(superName))) {
+                    this.isDescendantClass= true;
+                    AnnotationMethodScanner.this.aopMatchCut = aopMatchCut;
+                }
+            });
+        }
 
         super.visit(version, access, name, signature, superName, interfaces);
 

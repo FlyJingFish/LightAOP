@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import com.flyjingfish.test_lib.BaseActivity;
 import com.flyjingfish.test_lib.annotation.MyAnno;
 
-public class SecondActivity extends BaseActivity {
+public class SecondActivity extends BaseActivity2 {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
