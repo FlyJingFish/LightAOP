@@ -1,24 +1,28 @@
 package com.flyjingfish.light_aop_plugin
 
+import java.util.ArrayList
 import java.util.HashMap
 
 object WovenInfoUtils {
-    val annotations: HashMap<String,AopMethodCut> = HashMap()
+    val aopMethodCuts: HashMap<String,AopMethodCut> = HashMap()
+    val aopMatchCuts: HashMap<String,AopMatchCut> = HashMap()
     private val classMethodRecords: HashMap<String, HashMap<String, MethodRecord>> = HashMap()//类名为key，value为方法map集合
 
     fun addAnnoInfo(info: AopMethodCut) {
-        annotations[info.anno] = info
+        aopMethodCuts[info.anno] = info
     }
 
     fun isContainAnno(info: String): Boolean {
         val anno = "@" + info.substring(1, info.length).replace("/", ".").replace(";", "")
-        return annotations.contains(anno)
+        return aopMethodCuts.contains(anno)
     }
     fun getAnnoInfo(info: String): AopMethodCut? {
-        return annotations[info]
+        return aopMethodCuts[info]
     }
 
-
+    fun addMatchInfo(info: AopMatchCut) {
+        aopMatchCuts[info.baseClassName] = info
+    }
 
     fun addClassMethodRecords(classMethodRecord: ClassMethodRecord) {
         var methodsRecord: HashMap<String, MethodRecord>? =
@@ -35,5 +39,10 @@ object WovenInfoUtils {
         val methodsRecord: HashMap<String, MethodRecord>? =
             classMethodRecords[classFile]
         return methodsRecord
+    }
+
+    fun getMatchInfo(classFile:String):AopMatchCut?{
+        val key = Utils.slashToDot(classFile.substring(0,classFile.lastIndexOf(".")))
+        return aopMatchCuts[key]
     }
 }

@@ -28,6 +28,8 @@ public class AnnotationScanner extends ClassVisitor {
     class MethodAnnoVisitor extends AnnotationVisitor {
         String anno;
         String cutClassName;
+        String baseClassName;
+        String methodNames;
         MethodAnnoVisitor() {
             super(Opcodes.ASM8);
         }
@@ -41,6 +43,12 @@ public class AnnotationScanner extends ClassVisitor {
                 if (name.equals("pointCutClassName")) {
                     cutClassName = value.toString();
                 }
+                if (name.equals("baseClassName")) {
+                    baseClassName = value.toString();
+                }
+                if (name.equals("methodNames")) {
+                    methodNames = value.toString();
+                }
 //                WovenInfoUtils.INSTANCE.addAnnoInfo(value.toString());
             }
             super.visit(name, value);
@@ -49,8 +57,14 @@ public class AnnotationScanner extends ClassVisitor {
         @Override
         public void visitEnd() {
             super.visitEnd();
-            AopMethodCut cut = new AopMethodCut(anno,cutClassName);
-            WovenInfoUtils.INSTANCE.addAnnoInfo(cut);
+            if (anno != null && cutClassName != null){
+                AopMethodCut cut = new AopMethodCut(anno,cutClassName);
+                WovenInfoUtils.INSTANCE.addAnnoInfo(cut);
+            }
+            if (baseClassName != null && methodNames != null){
+                AopMatchCut cut = new AopMatchCut(baseClassName,methodNames.split("-"));
+                WovenInfoUtils.INSTANCE.addMatchInfo(cut);
+            }
         }
     }
 

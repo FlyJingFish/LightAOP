@@ -10,7 +10,7 @@ public class JoinAnnoCutUtils {
     private static final Map<String,String> mAnnoCutMap = new HashMap<>();
     public static void register(String mapValue){
         list.add(mapValue);
-        String[] str = mapValue.split("=");
+        String[] str = mapValue.split("-");
         mAnnoCutMap.put(str[0],str[1]);
     }
 

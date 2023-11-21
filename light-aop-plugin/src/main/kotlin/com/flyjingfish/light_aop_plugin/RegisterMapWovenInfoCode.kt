@@ -42,7 +42,7 @@ class RegisterMapWovenInfoCode {
 
         override fun visitInsn(opcode: Int) {
             if (opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN) {
-                val map: HashMap<String,AopMethodCut> = WovenInfoUtils.annotations
+                val map: HashMap<String,AopMethodCut> = WovenInfoUtils.aopMethodCuts
                 if (map.isNotEmpty()) {
                     map.forEach { (_, value) ->
                         val name = value.anno+"="+value.cutClassName
