@@ -1,4 +1,4 @@
-package com.flyjingfish.test_lib.annotations;
+package com.flyjingfish.test_lib.annotation;
 
 import androidx.annotation.Keep;
 

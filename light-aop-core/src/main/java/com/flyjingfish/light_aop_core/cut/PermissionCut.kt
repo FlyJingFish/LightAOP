@@ -1,13 +1,13 @@
 package com.flyjingfish.light_aop_core.cut
 
 import com.flyjingfish.light_aop_annotation.BasePointCut
+import com.flyjingfish.light_aop_annotation.ProceedJoinPoint
 import com.flyjingfish.light_aop_core.annotations.Permission
 import com.flyjingfish.light_aop_core.listeners.OnRequestPermissionListener
 import com.flyjingfish.light_aop_core.utils.LightAop
-import org.aspectj.lang.ProceedingJoinPoint
 
 class PermissionCut :BasePointCut<Permission> {
-    override fun invoke(joinPoint: ProceedingJoinPoint, anno: Permission): Any? {
+    override fun invoke(joinPoint: ProceedJoinPoint, anno: Permission): Any? {
         if (LightAop.getOnPermissionsInterceptListener() == null){
             return joinPoint.proceed()
         }

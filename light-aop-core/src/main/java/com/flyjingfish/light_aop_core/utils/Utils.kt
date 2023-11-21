@@ -1,7 +1,6 @@
 package com.flyjingfish.light_aop_core.utils
 
-import org.aspectj.lang.ProceedingJoinPoint
-import org.aspectj.lang.reflect.CodeSignature
+import com.flyjingfish.light_aop_annotation.ProceedJoinPoint
 
 object Utils {
     /**
@@ -10,11 +9,9 @@ object Utils {
      * @param joinPoint
      * @return
      */
-    fun getMethodName(joinPoint: ProceedingJoinPoint): String {
-        val codeSignature = joinPoint.signature as CodeSignature
-        val cls = codeSignature.declaringType //方法所在类
-        val methodName = codeSignature.name //方法名
-        return getClassName(cls) + "." + methodName
+    fun getMethodName(joinPoint: ProceedJoinPoint): String {
+        val methodName = joinPoint.targetMethod.name //方法名
+        return getClassName(joinPoint.target.javaClass) + "." + methodName
     }
 
     fun getClassName(cls: Class<*>?): String {

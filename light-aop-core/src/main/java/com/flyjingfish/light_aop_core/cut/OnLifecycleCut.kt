@@ -6,12 +6,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.flyjingfish.light_aop_annotation.BasePointCut
+import com.flyjingfish.light_aop_annotation.ProceedJoinPoint
 import com.flyjingfish.light_aop_core.annotations.OnLifecycle
 import com.flyjingfish.light_aop_core.utils.AppExecutors
-import org.aspectj.lang.ProceedingJoinPoint
 
 class OnLifecycleCut :BasePointCut<OnLifecycle> {
-    override fun invoke(joinPoint: ProceedingJoinPoint, anno: OnLifecycle): Any? {
+    override fun invoke(joinPoint: ProceedJoinPoint, anno: OnLifecycle): Any? {
         if (Looper.getMainLooper() == Looper.myLooper()){
             invokeLifecycle(joinPoint, anno)
         }else{
@@ -22,7 +22,7 @@ class OnLifecycleCut :BasePointCut<OnLifecycle> {
         return null
     }
 
-    private fun invokeLifecycle(joinPoint: ProceedingJoinPoint, annotation: OnLifecycle){
+    private fun invokeLifecycle(joinPoint: ProceedJoinPoint, annotation: OnLifecycle){
         val target = joinPoint.target
         if(target is FragmentActivity){
             target.lifecycle.addObserver(object : LifecycleEventObserver{

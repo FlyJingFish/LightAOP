@@ -8,37 +8,17 @@ import org.slf4j.Logger;
 
 public class AnnotationMethodScanner extends ClassVisitor {
     Logger logger;
-    private OnCallBackMethod onCallBackMethod;
+    private final OnCallBackMethod onCallBackMethod;
     public AnnotationMethodScanner(Logger logger,OnCallBackMethod onCallBackMethod) {
         super(Opcodes.ASM8);
         this.logger = logger;
         this.onCallBackMethod = onCallBackMethod;
     }
-//    public AnnotationScanner() {
-//        super(Opcodes.ASM8);
-//    }
 
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
         return super.visitAnnotation(descriptor, visible);
     }
-
-//    class MethodAnnoVisitor extends AnnotationVisitor {
-//        String methodName;
-//        MethodAnnoVisitor(String methodName) {
-//            super(Opcodes.ASM8);
-//            this.methodName = methodName;
-//        }
-//        @Override
-//        public void visit(String name, Object value) {
-//            if (WovenInfoUtils.INSTANCE.isContainAnno(value.toString())){
-//                if (onCallBackMethod != null){
-//                    onCallBackMethod.onBackName(methodName);
-//                }
-//            }
-//            super.visit(name, value);
-//        }
-//    }
 
     class MyMethodVisitor extends MethodVisitor {
         MethodRecord methodName;

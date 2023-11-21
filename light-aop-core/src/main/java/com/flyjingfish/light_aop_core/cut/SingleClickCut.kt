@@ -1,12 +1,11 @@
 package com.flyjingfish.light_aop_core.cut
 
-import android.util.Log
 import android.view.View
+import com.flyjingfish.light_aop_annotation.ProceedJoinPoint
 import com.flyjingfish.light_aop_core.annotations.SingleClick
-import org.aspectj.lang.ProceedingJoinPoint
 
 class SingleClickCut : ClickCut<SingleClick>() {
-    override fun invoke(joinPoint: ProceedingJoinPoint, anno: SingleClick): Any? {
+    override fun invoke(joinPoint: ProceedJoinPoint, anno: SingleClick): Any? {
         var view: View? = null
         for (arg in joinPoint.args) {
             if (arg is View) {

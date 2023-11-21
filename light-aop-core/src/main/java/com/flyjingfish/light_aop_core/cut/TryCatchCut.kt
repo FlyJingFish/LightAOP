@@ -2,13 +2,13 @@ package com.flyjingfish.light_aop_core.cut
 
 import android.text.TextUtils
 import com.flyjingfish.light_aop_annotation.BasePointCut
+import com.flyjingfish.light_aop_annotation.ProceedJoinPoint
 import com.flyjingfish.light_aop_core.annotations.TryCatch
 import com.flyjingfish.light_aop_core.utils.LightAop
 import com.flyjingfish.light_aop_core.utils.Utils
-import org.aspectj.lang.ProceedingJoinPoint
 
 class TryCatchCut :BasePointCut<TryCatch> {
-    override fun invoke(joinPoint: ProceedingJoinPoint, tryCatch: TryCatch): Any? {
+    override fun invoke(joinPoint: ProceedJoinPoint, tryCatch: TryCatch): Any? {
         var result: Any?
         try {
             result = joinPoint.proceed()

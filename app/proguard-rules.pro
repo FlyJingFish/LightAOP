@@ -53,11 +53,11 @@
 
 
 # 你自定义的混淆规则 -----start-----
--keep @com.flyjingfish.test_lib.annotations.* class * {*;}
+-keep @com.flyjingfish.test_lib.annotation.* class * {*;}
 -keep class * {
-    @com.flyjingfish.test_lib.annotations.* <fields>;
+    @com.flyjingfish.test_lib.annotation.* <fields>;
 }
 -keepclassmembers class * {
-    @com.flyjingfish.test_lib.annotations.* <methods>;
+    @com.flyjingfish.test_lib.annotation.* <methods>;
 }
 # 你自定义的混淆规则 -----end-----

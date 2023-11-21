@@ -1,15 +1,14 @@
 package com.flyjingfish.light_aop_core.cut
 
 import android.os.Looper
-import android.util.Log
 import com.flyjingfish.light_aop_annotation.BasePointCut
+import com.flyjingfish.light_aop_annotation.ProceedJoinPoint
 import com.flyjingfish.light_aop_core.annotations.IOThread
 import com.flyjingfish.light_aop_core.enums.ThreadType
 import com.flyjingfish.light_aop_core.utils.AppExecutors
-import org.aspectj.lang.ProceedingJoinPoint
 
 class IOThreadCut : BasePointCut<IOThread>{
-    override fun invoke(joinPoint: ProceedingJoinPoint, ioThread: IOThread): Any? {
+    override fun invoke(joinPoint: ProceedJoinPoint, ioThread: IOThread): Any? {
         if (Looper.getMainLooper() != Looper.myLooper()){
             return joinPoint.proceed()
         }else{
@@ -34,7 +33,7 @@ class IOThreadCut : BasePointCut<IOThread>{
         }
     }
 
-    private fun getProceedResult(joinPoint: ProceedingJoinPoint): Any? {
+    private fun getProceedResult(joinPoint: ProceedJoinPoint): Any? {
         try {
             return joinPoint.proceed()
         } catch (e: Throwable) {

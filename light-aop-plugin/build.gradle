@@ -14,8 +14,10 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
     implementation 'com.android.tools.build:gradle:8.0.0'
-    api "org.aspectj:aspectjtools:1.9.8"
-    api 'org.aspectj:aspectjweaver:1.9.8'
+//    api "org.aspectj:aspectjtools:1.9.8"
+//    api 'org.aspectj:aspectjweaver:1.9.8'
     implementation 'org.ow2.asm:asm:9.2'
     implementation 'org.ow2.asm:asm-commons:9.2'
+    implementation 'org.javassist:javassist:3.29.2-GA'
+    implementation 'io.github.FlyJingFish.LightAop:light-aop-annotation:1.0.1'
 }

@@ -1,6 +1,6 @@
 package com.flyjingfish.light_aop_plugin
 
-import com.flyjingfish.light_aop_plugin.AnnotationMethodScanner.OnCallBackMethod
+import com.flyjingfish.light_aop_plugin.Utils.MethodAnnoUtils
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.Directory
 import org.gradle.api.file.RegularFile
@@ -11,6 +11,7 @@ import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.objectweb.asm.ClassReader
 import java.io.BufferedOutputStream
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -57,7 +58,6 @@ abstract class AssembleLightAopTask : DefaultTask() {
                         FileInputStream(file).use { inputs ->
                             val classReader = ClassReader(inputs.readAllBytes())
                             classReader.accept(AnnotationScanner(logger), ClassReader.EXPAND_FRAMES)
-                            inputs.close()
                         }
                     }
 
@@ -80,7 +80,6 @@ abstract class AssembleLightAopTask : DefaultTask() {
                         jarFile.getInputStream(jarEntry).use { inputs ->
                             val classReader = ClassReader(inputs.readAllBytes())
                             classReader.accept(AnnotationScanner(logger), ClassReader.EXPAND_FRAMES)
-                            inputs.close()
                         }
                     }
                 } catch (e: Exception) {
@@ -89,7 +88,7 @@ abstract class AssembleLightAopTask : DefaultTask() {
                     }
                 }
             }
-//            jarFile.close()
+            jarFile.close()
         }
         logger.error("第二遍找到要注入代码的类---------")
         //第二遍找配置有注解的类和方法
@@ -111,7 +110,6 @@ abstract class AssembleLightAopTask : DefaultTask() {
                                     }, ClassReader.EXPAND_FRAMES)
                                 } catch (e: Exception) {
                                 }
-                                inputs.close()
                             }
                         }
                     }
@@ -144,7 +142,6 @@ abstract class AssembleLightAopTask : DefaultTask() {
                                     }, ClassReader.EXPAND_FRAMES)
                                 } catch (e: Exception) {
                                 }
-                                inputs.close()
                             }
                         }
                     }
@@ -154,22 +151,35 @@ abstract class AssembleLightAopTask : DefaultTask() {
                     }
                 }
             }
-//            jarFile.close()
+            jarFile.close()
         }
         logger.error("第三遍---------")
         allDirectories.get().forEach { directory ->
-            logger.info("Scan to directory [${directory.asFile.absolutePath}]")
+//            logger.error("Scan to directory1 [${directory.asFile.absolutePath}]")
             directory.asFile.walk().forEach { file ->
                 if (file.isFile) {
-                    logger.info("Scan to directory [${file.absolutePath}]")
-
+//                    logger.error("Scan to directory2 [${file.absolutePath}]")
                     val relativePath = directory.asFile.toURI().relativize(file.toURI()).path
-//                    logger.info("Scan the classes in the directory [${relativePath.replace(File.separatorChar, '.')}]")
-                    jarOutput!!.putNextEntry(JarEntry(relativePath.replace(File.separatorChar, '/')))
-                    file.inputStream().use { inputStream ->
-                        inputStream.copyTo(jarOutput!!)
+
+
+                    val methodsRecord: HashMap<String, MethodRecord>? = WovenInfoUtils.getClassMethodRecord(file.absolutePath)
+                    if (methodsRecord != null){
+                        logger.error("Scan to methodsRecord [${methodsRecord}]")
+                        FileInputStream(file).use { inputs ->
+                            val byteArray = WovenIntoCode.modifyClass(inputs.readAllBytes(),methodsRecord)
+                            jarOutput!!.putNextEntry(JarEntry(relativePath.replace(File.separatorChar, '/')))
+                            ByteArrayInputStream(byteArray).use {
+                                it.copyTo(jarOutput!!)
+                            }
+                            jarOutput!!.closeEntry()
+                        }
+                    }else{
+                        jarOutput!!.putNextEntry(JarEntry(relativePath.replace(File.separatorChar, '/')))
+                        file.inputStream().use { inputStream ->
+                            inputStream.copyTo(jarOutput!!)
+                        }
+                        jarOutput!!.closeEntry()
                     }
-                    jarOutput!!.closeEntry()
                 }
             }
         }
@@ -189,11 +199,38 @@ abstract class AssembleLightAopTask : DefaultTask() {
 
 
                     logger.info("Scan to jar ==== [${jarEntry}][${entryName}]")
-                    jarOutput!!.putNextEntry(JarEntry(jarEntry.name))
-                    jarFile.getInputStream(jarEntry).use {
-                        it.copyTo(jarOutput!!)
+
+
+                    val methodsRecord: HashMap<String, MethodRecord>? = WovenInfoUtils.getClassMethodRecord(entryName)
+
+                    if (methodsRecord != null){
+                        jarFile.getInputStream(jarEntry).use { inputs ->
+                            val byteArray = WovenIntoCode.modifyClass(inputs.readAllBytes(),methodsRecord)
+                            jarOutput!!.putNextEntry(JarEntry(entryName))
+                            ByteArrayInputStream(byteArray).use {
+                                it.copyTo(jarOutput!!)
+                            }
+                            jarOutput!!.closeEntry()
+                        }
+                    }else if (Utils.dotToSlash(MethodAnnoUtils) + _CLASS == entryName) {
+                        jarFile.getInputStream(jarEntry).use { inputs ->
+                            val originInject = inputs.readAllBytes()
+                            val resultByteArray = RegisterMapWovenInfoCode().execute(ByteArrayInputStream(originInject))
+                            jarOutput!!.putNextEntry(JarEntry(entryName))
+                            ByteArrayInputStream(resultByteArray).use {
+                                it.copyTo(jarOutput!!)
+                            }
+                            jarOutput!!.closeEntry()
+                        }
+                    } else{
+                        jarOutput!!.putNextEntry(JarEntry(entryName))
+                        jarFile.getInputStream(jarEntry).use {
+                            it.copyTo(jarOutput!!)
+                        }
+                        jarOutput!!.closeEntry()
                     }
-                    jarOutput!!.closeEntry()
+
+
                 } catch (e: Exception) {
                     if (!(e is ZipException && e.message?.startsWith("duplicate entry:") == true)) {
                         logger.warn("Merge jar error entry:[${jarEntry.name}], error message:$e")

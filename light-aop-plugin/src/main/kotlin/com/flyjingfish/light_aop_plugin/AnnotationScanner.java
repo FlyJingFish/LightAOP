@@ -15,9 +15,6 @@ public class AnnotationScanner extends ClassVisitor {
         super(Opcodes.ASM8);
         this.logger = logger;
     }
-//    public AnnotationScanner() {
-//        super(Opcodes.ASM8);
-//    }
 
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
@@ -29,6 +26,8 @@ public class AnnotationScanner extends ClassVisitor {
     }
 
     class MethodAnnoVisitor extends AnnotationVisitor {
+        String anno;
+        String cutClassName;
         MethodAnnoVisitor() {
             super(Opcodes.ASM8);
         }
@@ -36,9 +35,22 @@ public class AnnotationScanner extends ClassVisitor {
         public void visit(String name, Object value) {
             if (isLightAopClass){
                 logger.error("annotation: " + name + " = " + value);
-                WovenInfoUtils.INSTANCE.addAnnoInfo(value.toString());
+                if (name.equals("value")) {
+                    anno = value.toString();
+                }
+                if (name.equals("pointCutClassName")) {
+                    cutClassName = value.toString();
+                }
+//                WovenInfoUtils.INSTANCE.addAnnoInfo(value.toString());
             }
             super.visit(name, value);
+        }
+
+        @Override
+        public void visitEnd() {
+            super.visitEnd();
+            AopMethodCut cut = new AopMethodCut(anno,cutClassName);
+            WovenInfoUtils.INSTANCE.addAnnoInfo(cut);
         }
     }
 
