@@ -68,6 +68,8 @@ class MainActivity: BaseActivity() {
 
     @MainThread
     fun onMainThread(){
+//        val testInterface = TestInterface();
+//        testInterface.onTest()
         Log.e("Test_MainThread","onMainThread是否主线程="+(Looper.getMainLooper() == Looper.myLooper()))
     }
 
