@@ -3,7 +3,7 @@ package com.flyjingfish.lightaop;
 
 import com.flyjingfish.light_aop_core.annotations.MainThread;
 
-public interface TestInterface {
+public abstract class TestInterface {
 //    @MainThread
-    public void onTest();
+    public abstract void onTest();
 }

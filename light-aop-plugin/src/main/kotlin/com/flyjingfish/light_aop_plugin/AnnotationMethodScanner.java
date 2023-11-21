@@ -13,7 +13,14 @@ import java.util.List;
 
 import javassist.ClassPool;
 import javassist.CtClass;
+import javassist.CtMethod;
 import javassist.NotFoundException;
+import javassist.bytecode.AnnotationsAttribute;
+import javassist.bytecode.ClassFile;
+import javassist.bytecode.CodeAttribute;
+import javassist.bytecode.ConstPool;
+import javassist.bytecode.MethodInfo;
+import javassist.bytecode.annotation.Annotation;
 
 public class AnnotationMethodScanner extends ClassVisitor {
     Logger logger;
@@ -28,8 +35,10 @@ public class AnnotationMethodScanner extends ClassVisitor {
     private boolean isDescendantClass;
     private AopMatchCut aopMatchCut;
     private List<MethodRecord> cacheMethodRecords = new ArrayList<>();
+    private String className;
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        className = name;
         if (superName != null){
 
             WovenInfoUtils.INSTANCE.getAopMatchCuts().forEach((key,aopMatchCut)->{
@@ -67,7 +76,6 @@ public class AnnotationMethodScanner extends ClassVisitor {
                 }
             });
         }
-
         super.visit(version, access, name, signature, superName, interfaces);
 
     }
@@ -87,14 +95,42 @@ public class AnnotationMethodScanner extends ClassVisitor {
         public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
 //            logger.error("AnnotationMethodScanner MyMethodVisitor type: " + descriptor);
             if (WovenInfoUtils.INSTANCE.isContainAnno(descriptor)){
-                if (onCallBackMethod != null){
+                boolean isBack = true;
+//                try {
+//                    ClassPool cp = new ClassPool(null);
+//                    cp.appendSystemPath();
+//                    for (String classPath : WovenInfoUtils.INSTANCE.getClassPaths()) {
+//                        cp.appendClassPath(classPath);
+//                    }
+//                    CtClass ctClass = cp.getCtClass(Utils.INSTANCE.slashToDot(className));
+//                    CtMethod ctMethod = getCtMethod(ctClass,methodName.getMethodName(),methodName.getDescriptor());
+//                    MethodInfo methodInfo = ctMethod.getMethodInfo();
+//                    CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
+//                    if (codeAttribute == null){
+//                        isBack = false;
+//                    }
+//                } catch (NotFoundException e) {
+//                    throw new RuntimeException(e);
+//                }
+                if (onCallBackMethod != null && isBack){
                     onCallBackMethod.onBackName(methodName);
                 }
             }
             return super.visitAnnotation(descriptor, visible);
         }
     }
-
+    public static CtMethod getCtMethod(CtClass ctClass,String methodName,String descriptor) throws NotFoundException {
+        CtMethod[] ctMethods = ctClass.getDeclaredMethods(methodName);
+        if (ctMethods != null && ctMethods.length>0){
+            for (CtMethod ctMethod : ctMethods) {
+                String allSignature = ctMethod.getSignature();
+                if (descriptor.equals(allSignature)){
+                    return ctMethod;
+                }
+            }
+        }
+        return null;
+    }
     @Override
     public MethodVisitor visitMethod(int access, String name, String descriptor,
                                      String signature, String[] exceptions) {
@@ -102,7 +138,26 @@ public class AnnotationMethodScanner extends ClassVisitor {
             logger.error("AnnotationMethodScanner method: name = " + name);
             for (String methodName : aopMatchCut.getMethodNames()) {
                 if (methodName.equals(name)){
-                    cacheMethodRecords.add(new MethodRecord(name,descriptor, aopMatchCut.getCutClassName()));
+                    boolean isBack = true;
+//                    try {
+//                        ClassPool cp = new ClassPool(null);
+//                        cp.appendSystemPath();
+//                        for (String classPath : WovenInfoUtils.INSTANCE.getClassPaths()) {
+//                            cp.appendClassPath(classPath);
+//                        }
+//                        CtClass ctClass = cp.getCtClass(Utils.INSTANCE.slashToDot(className));
+//                        CtMethod ctMethod = getCtMethod(ctClass,name,descriptor);
+//                        MethodInfo methodInfo = ctMethod.getMethodInfo();
+//                        CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
+//                        if (codeAttribute == null){
+//                            isBack = false;
+//                        }
+//                    } catch (NotFoundException e) {
+//                        throw new RuntimeException(e);
+//                    }
+                    if (isBack){
+                        cacheMethodRecords.add(new MethodRecord(name,descriptor, aopMatchCut.getCutClassName()));
+                    }
                     break;
                 }
             }
