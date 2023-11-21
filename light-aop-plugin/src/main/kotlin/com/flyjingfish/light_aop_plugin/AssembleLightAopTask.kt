@@ -3,10 +3,13 @@ package com.flyjingfish.light_aop_plugin
 import com.flyjingfish.light_aop_plugin.Utils.MethodAnnoUtils
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.Directory
+import org.gradle.api.file.FileCollection
 import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
+import org.gradle.api.tasks.Classpath
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.objectweb.asm.ClassReader
@@ -50,8 +53,15 @@ abstract class AssembleLightAopTask : DefaultTask() {
     }
 
     private fun scanFile() {
+        val androidConfig : AndroidConfig = AndroidConfig(project)
+        val list: List<File> = androidConfig.getBootClasspath()
+        logger.info("Scan to classPath [${list}]")
+        for (file in list) {
+            WovenInfoUtils.addClassPath(file.absolutePath)
+        }
         //第一遍找配置文件
         allDirectories.get().forEach { directory ->
+            WovenInfoUtils.addClassPath(directory.asFile.absolutePath)
             directory.asFile.walk().forEach { file ->
                 if (file.isFile) {
                     if (file.name.endsWith(END_NAME)) {
@@ -63,9 +73,9 @@ abstract class AssembleLightAopTask : DefaultTask() {
 
                 }
             }
-            WovenInfoUtils.addClassPath(directory.asFile.absolutePath)
+
         }
-//        logger.info("Scan to project [${project.project.}]")
+
         allJars.get().forEach { file ->
             WovenInfoUtils.addClassPath(file.asFile.absolutePath)
             val jarFile = JarFile(file.asFile)

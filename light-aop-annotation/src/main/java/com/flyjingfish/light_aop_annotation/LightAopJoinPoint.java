@@ -8,6 +8,7 @@ import com.flyjingfish.light_aop_annotation.ProceedJoinPoint;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class LightAopJoinPoint {
     public Object joinPointExecute(){
@@ -39,6 +40,7 @@ public class LightAopJoinPoint {
     }
     private Object target;
     private Object[] mArgs;
+    private String[] mArgClassNames;
     private String targetMethodName;
     private String originalMethodName;
     private Method targetMethod;
@@ -70,8 +72,14 @@ public class LightAopJoinPoint {
             if (args != null && args.length > 0){
                 classes = new Class[args.length];
                 int index = 0;
-                for (Object arg : args) {
-                    classes[index] = arg.getClass();
+                for (String className : mArgClassNames) {
+                    //TODO TXY:: 这块空指针了
+                    try {
+                        Class c = Class.forName(className);
+                        classes[index] = c;
+                    } catch (ClassNotFoundException e) {
+                    }
+
                     index++;
                 }
             }
@@ -89,4 +97,11 @@ public class LightAopJoinPoint {
         }
     }
 
+    public String[] getArgClassNames() {
+        return mArgClassNames;
+    }
+
+    public void setArgClassNames(String[] argClassNames) {
+        this.mArgClassNames = argClassNames;
+    }
 }

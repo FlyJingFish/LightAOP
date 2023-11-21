@@ -116,8 +116,19 @@ public class WovenIntoCode {
                 StringBuffer argsBuffer = new StringBuffer();
                 boolean isStaticMethod = Modifier.isStatic(ctMethod.getModifiers());
                 boolean isHasArgs = false;
+                List<String> paramsClassNames = new ArrayList<>();
+                StringBuffer paramsClassNamesBuffer = new StringBuffer();
                 if (attr != null) {
-                    int len = ctMethod.getParameterTypes().length;
+                    CtClass[] ctClasses = ctMethod.getParameterTypes();
+                    for (int i = 0; i < ctClasses.length; i++) {
+                        CtClass aClass = ctClasses[i];
+                        String name = aClass.getName();
+                        paramsClassNamesBuffer.append("\"").append(name).append("\"");
+                        if (i != ctClasses.length -1){
+                            argsBuffer.append(",");
+                        }
+                    }
+                    int len = ctClasses.length;
                     // 非静态的成员函数的第一个参数是this
                     int pos = isStaticMethod ? 0 : 1;
                     isHasArgs = len>0;
@@ -141,6 +152,8 @@ public class WovenIntoCode {
                 System.out.println(argsBuffer);
                 System.out.println(isHasArgs);
                 String body = " {LightAopJoinPoint pointCut = new LightAopJoinPoint("+(isStaticMethod?"$0":"$0,"+"\""+oldMethodName+"\","+"\""+targetMethodName+"\"")+");\n" +
+                        (isHasArgs? "        String[] classNames = new String[]{"+paramsClassNamesBuffer+"};\n" :"")+
+                        (isHasArgs? "        pointCut.setArgClassNames(classNames);\n" :"")+
                         (isHasArgs? "        Object[] args = new Object[]{"+argsBuffer+"};\n" :"")+
                         (isHasArgs? "        pointCut.setArgs(args);\n" :"        pointCut.setArgs(null);\n")+
                         (cutClassName != null? "        pointCut.setCutMatchClassName(\""+cutClassName+"\");\n" :"")+
