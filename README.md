@@ -1,4 +1,5 @@
 # LightAOP
+# [推荐用我写的另一个真正属于 Android 端的轻量化 Aop 框架 AndroidAOP](https://github.com/FlyJingFish/AndroidAop)
 
 将 AspectJ 轻量化、容易化使用的 Android 端 Aop 框架，不再学习如何使用 AspectJ 的语法，也可以定制出属于你的 Aop 代码，心动不如行动，赶紧用起来吧
 
