@@ -1,6 +1,12 @@
 # LightAOP
 # [推荐用我写的另一个真正属于 Android 端的轻量化 Aop 框架 AndroidAOP](https://github.com/FlyJingFish/AndroidAop)
 
+## 另外推荐我写的另外一些库
+
+- [OpenImage 轻松实现在应用内点击小图查看大图的动画放大效果](https://github.com/FlyJingFish/OpenImage)
+
+- [主页查看更多开源库](https://github.com/FlyJingFish)
+
 将 AspectJ 轻量化、容易化使用的 Android 端 Aop 框架，不再学习如何使用 AspectJ 的语法，也可以定制出属于你的 Aop 代码，心动不如行动，赶紧用起来吧
 
 [![Maven central](https://img.shields.io/maven-central/v/io.github.FlyJingFish.LightAop/light-aop-core)](https://central.sonatype.com/search?q=io.github.FlyJingFish.LightAop)
