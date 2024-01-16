@@ -1,4 +1,4 @@
-# LightAOP
+# LightAOP（本库不再维护，推荐使用[AndroidAOP](https://github.com/FlyJingFish/AndroidAop)）
 # [推荐用我写的另一个真正属于 Android 端的轻量化 Aop 框架 AndroidAOP](https://github.com/FlyJingFish/AndroidAop)
 
 ## 另外推荐我写的另外一些库
